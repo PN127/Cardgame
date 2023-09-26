@@ -19,4 +19,19 @@ namespace Cards
 		Mage = 1,
 		Warrior = 2
 	}
+
+	public enum StorageType
+    {
+		Table,
+		Hand,
+		Deck
+    }
+
+	public enum Players
+    {
+		None,
+		Player1,
+		Player2,
+		Both
+    }
 }

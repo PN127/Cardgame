@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.07, y: 11}
+  m_AnchoredPosition: {x: -0.07, y: 1}
   m_SizeDelta: {x: 0.65, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1307249472091281205
@@ -264,7 +264,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -335,7 +335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 11}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 1, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1307249472768872972
@@ -540,7 +540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 11}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: 1.32, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1307249472827250136
@@ -746,7 +746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6, y: 11}
+  m_AnchoredPosition: {x: 2.6, y: 1}
   m_SizeDelta: {x: 0.4, y: 0.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1307249473160749778
@@ -951,7 +951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.71, y: 11}
+  m_AnchoredPosition: {x: 2.71, y: 1}
   m_SizeDelta: {x: 0.4, y: 0.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1307249473836208758
@@ -1028,7 +1028,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_margin: {x: 0.1, y: 0, z: 0.1, w: 0}
   m_textInfo:
     textComponent: {fileID: 1307249473836208755}
-    characterCount: 2
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -1156,7 +1156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.79, y: 11}
+  m_AnchoredPosition: {x: -2.79, y: 1}
   m_SizeDelta: {x: 0.4, y: 0.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1307249473871312273
@@ -1437,6 +1437,7 @@ GameObject:
   - component: {fileID: 1307249474124220042}
   - component: {fileID: 1307249474124220041}
   - component: {fileID: 1307249474124220040}
+  - component: {fileID: 8071695488380628202}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -1451,15 +1452,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307249474124220039}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: -282, y: 18.599998, z: 5.2}
-  m_LocalScale: {x: 70, y: 1, z: 100}
+  m_LocalScale: {x: 7, y: 1, z: 10}
   m_Children:
   - {fileID: 1307249472203900902}
   - {fileID: 1307249474052391472}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!33 &1307249474124220042
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1520,3 +1521,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8071695488380628202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307249474124220039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54108d3fb94c7a48b55ff3c7f381ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialImage: {fileID: 1307249472203900898}
+  DisplayCost: {fileID: 1307249473836208755}
+  DisplayName: {fileID: 1307249472768872969}
+  DisplayDescription: {fileID: 1307249472827250133}
+  DisplayType: {fileID: 1307249472091281202}
+  DisplayAttack: {fileID: 1307249473160749871}
+  DisplayHealth: {fileID: 1307249473871312366}
