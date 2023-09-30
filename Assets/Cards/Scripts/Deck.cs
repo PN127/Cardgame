@@ -1,5 +1,5 @@
 ﻿using OneLine;
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,25 +17,25 @@ namespace Cards
 
         [SerializeField]
         private CardPackConfiguration[] cardPacks; //to do
-        [SerializeField]
-        private CardPackConfiguration cost1;
-        private List<CardPropertiesData> array;
         [SerializeField, OneLine(Header = LineHeader.Short)]
-        private CardPropertiesDataToSelect[] _cardsForDeck;
+        private List<CardPropertiesData> _playersDeck;
+
+        [SerializeField]
+        [Header("Укажите id карт, которые будут в колоде")]
+        private List<uint> _idCardsForDeck;
 
         private void Awake()
         {
-            //_cardsForDeck = new CardPropertiesDataToSelect[46];
             _cardCreator = GetComponent<CardCreator>();
             _playerHand = FindObjectOfType<PlayerHand>();
-            array = new List<CardPropertiesData>();
+            _playersDeck = new List<CardPropertiesData>();
                         
         }
 
-        //private void Start()
-        //{
-        //    DeckFiiling();
-        //}
+        private void Start()
+        {
+            CreateDeck();
+        }
 
         //private void DeckFiiling()
         //{
@@ -59,9 +59,29 @@ namespace Cards
         //    }
         //}
 
+        private void CreateDeck()
+        {
+            var _copyId = new List<uint>();
+            _copyId = _idCardsForDeck;
+
+            foreach (CardPackConfiguration pack in cardPacks)
+            {
+                var array = new List<CardPropertiesData>();
+                array = pack.UnionProperties(array).ToList();
+
+                foreach (CardPropertiesData property in array)
+                {
+                    while (_copyId.Contains<uint>(property.Id))
+                    {
+                        _playersDeck.Add(property);
+                        _copyId.Remove(property.Id);
+                    }
+                }
+            }
+        }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
-            array = cost1.UnionProperties(array).ToList(); //to do - Задал вопрос в Дискорде обучения. Ответ есть и применен
             AddCardsInPlayerHand();
         }
         private void AddCardsInPlayerHand()
@@ -78,10 +98,11 @@ namespace Cards
                 }
             }
         }
+
         private void CreateCard(CardPosition cardPosition, float waitTime, out Card card)
         {
             card = _cardCreator.CreaterCard(transform.position);
-            CardFilling(card, array[1]);
+            CardFilling(card, _playersDeck[1]);
             card.SetProperties();
             card.gameObject.SetActive(false);
         }

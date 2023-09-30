@@ -915,9 +915,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd184e9d42505d745b7bc1f4172795ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPacks: []
-  cost1: {fileID: 0}
-  _cardsForDeck: []
+  cardPacks:
+  - {fileID: 11400000, guid: 55dbf4c3fc0b44d43bc5d90dce9070bc, type: 2}
+  - {fileID: 11400000, guid: 42ffdb3326ce897459155355d37808fd, type: 2}
+  - {fileID: 11400000, guid: a8e853945eaef0444b396742ee18c374, type: 2}
+  - {fileID: 11400000, guid: 89d7571129eb5cf48a0d841efa74bdeb, type: 2}
+  - {fileID: 11400000, guid: 3229ff84acff46246a9bd0591a1ab7f6, type: 2}
+  - {fileID: 11400000, guid: cb7286cd1080bf04cbbf4a2265e52f38, type: 2}
+  - {fileID: 11400000, guid: 93d377064370f4443970eeb9769fd723, type: 2}
+  _playersDeck: []
+  _idCardsForDeck: 00000000650000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!114 &406663323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1392,8 +1399,50 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3229ff84acff46246a9bd0591a1ab7f6, type: 2}
   - {fileID: 11400000, guid: cb7286cd1080bf04cbbf4a2265e52f38, type: 2}
   - {fileID: 11400000, guid: 93d377064370f4443970eeb9769fd723, type: 2}
-  cost1: {fileID: 11400000, guid: 55dbf4c3fc0b44d43bc5d90dce9070bc, type: 2}
-  _cardsForDeck: []
+  _playersDeck:
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  _idCardsForDeck: 65000000cb0000009501000000000000f80100000000000065000000fa01000000000000000000000000000000000000650000000000000059020000000000005a020000bf02000000000000bd020000bd020000000000000000000095010000950100009501000000000000000000005902000000000000
 --- !u!114 &502338963
 MonoBehaviour:
   m_ObjectHideFlags: 0
