@@ -22,6 +22,7 @@ namespace Cards
 
 	public enum StorageType
     {
+		Starting,
 		Table,
 		Hand,
 		Deck

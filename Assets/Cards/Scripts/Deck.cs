@@ -14,11 +14,21 @@ namespace Cards
     {
         private CardCreator _cardCreator;
         private PlayerHand _playerHand;
+        private StartingHand _startingHand;
+        private bool _startHandSelection;
 
+        
         [SerializeField]
         private CardPackConfiguration[] cardPacks; //to do
         [SerializeField, OneLine(Header = LineHeader.Short)]
         private List<CardPropertiesData> _playersDeck;
+
+        [Header("StartingHand properties")]
+        [SerializeField]
+        private GameObject _blackout;
+        [SerializeField]
+        private float _step;
+        
 
         [SerializeField]
         [Header("Укажите id карт, которые будут в колоде")]
@@ -28,42 +38,20 @@ namespace Cards
         {
             _cardCreator = GetComponent<CardCreator>();
             _playerHand = FindObjectOfType<PlayerHand>();
+            _startingHand = FindObjectOfType<StartingHand>();
             _playersDeck = new List<CardPropertiesData>();
-                        
+            _startHandSelection = false;
         }
 
         private void Start()
         {
             CreateDeck();
         }
-
-        //private void DeckFiiling()
-        //{
-        //    byte e = 0;
-        //    foreach (CardPackConfiguration pack in cardPacks)
-        //    {
-        //        var list = pack.UnionProperties(array).ToList();
-        //        byte i = 0;
-        //        while (i < list.Count)
-        //        {
-        //            _cardsForDeck[e].Id = list[i].Id;
-        //            _cardsForDeck[e].Cost = list[i].Cost;
-        //            _cardsForDeck[e].Name = list[i].Name;
-        //            _cardsForDeck[e].Texture = list[i].Texture;
-        //            _cardsForDeck[e].Attack = list[i].Attack;
-        //            _cardsForDeck[e].Health = list[i].Health;
-        //            _cardsForDeck[e].Type = list[i].Type;
-        //            i++;
-        //            e++;
-        //        }
-        //    }
-        //}
-
+       
         private void CreateDeck()
         {
-            var _copyId = new List<uint>();
-            _copyId = _idCardsForDeck;
-
+            var _copyId = new List<uint>(_idCardsForDeck);
+            
             foreach (CardPackConfiguration pack in cardPacks)
             {
                 var array = new List<CardPropertiesData>();
@@ -82,27 +70,61 @@ namespace Cards
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            AddCardsInPlayerHand();
+            if (!_startHandSelection)
+                StartingHand();
+            //else
+            //    AddCardsInPlayerHand();
         }
-        private void AddCardsInPlayerHand()
+
+        private void StartingHand()
         {
+            StartCoroutine(Eclipse());
+            _startingHand.TurnOnChildren(true);
             float waitTime = 0;
-            foreach (CardPosition cardPosition in _playerHand.CardPositions)
+
+            List<int> ids = new List<int>();
+            while (ids.Count < 3)
+            {
+                int r = UnityEngine.Random.Range(0, _playersDeck.Count);
+                if (ids.Contains(r))
+                    break;
+                ids.Add(r);
+            }
+
+            foreach (CardPosition cardPosition in _startingHand.CardPositions)
             {
                 if (cardPosition.CardInPosition == null)
                 {
+                    int id = ids[0];
                     Card card;
-                    CreateCard(cardPosition, waitTime, out card);
+                    CreateCard(cardPosition, waitTime, id, out card);
+                    ids.Remove(id);
                     waitTime += 1;
                     StartCoroutine(Move(card, cardPosition, waitTime));
                 }
             }
         }
 
-        private void CreateCard(CardPosition cardPosition, float waitTime, out Card card)
+        //private void AddCardsInPlayerHand()
+        //{
+        //    float waitTime = 0;
+        //    foreach (CardPosition cardPosition in _playerHand.CardPositions)
+        //    {
+        //        if (cardPosition.CardInPosition == null)
+        //        {
+        //            Card card;
+        //            CreateCard(cardPosition, waitTime, out card);
+        //            waitTime += 1;
+        //            StartCoroutine(Move(card, cardPosition, waitTime));
+        //        }
+        //    }
+        //}
+
+        private void CreateCard(CardPosition cardPosition, float waitTime, int id, out Card card)
         {
             card = _cardCreator.CreaterCard(transform.position);
-            CardFilling(card, _playersDeck[1]);
+            
+            CardFilling(card, _playersDeck[id]);
             card.SetProperties();
             card.gameObject.SetActive(false);
         }
@@ -135,6 +157,20 @@ namespace Cards
                 yield return null;
             }
             cardPosition.SetCard(card);
+        }
+
+        private IEnumerator Eclipse()
+        {
+            _blackout.SetActive(true);
+            var c = _blackout.GetComponent<Renderer>().material.color;
+
+            while (c.a < 0.8)
+            {
+                c.a += _step/100;
+                _blackout.GetComponent<Renderer>().material.color = c;
+                yield return null;
+            }
+            
         }
 
     }

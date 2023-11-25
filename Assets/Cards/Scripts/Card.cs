@@ -54,7 +54,7 @@ namespace Cards
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 10f, 1 << 8))
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 100f, 1 << 8))
             {
                 CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
                 if (cardPosition.CardInPosition == null)
