@@ -20,6 +20,11 @@ namespace Cards
             CardInPosition.transform.position = GetCardPosition;
             card.CurrentPosition = this;
         }
+        public Card GetCard()
+        {
+            return CardInPosition;
+        }
+
         public void Clear()
         {
             CardInPosition = null;

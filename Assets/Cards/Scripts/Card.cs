@@ -35,11 +35,13 @@ namespace Cards
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (CurrentPosition.StorageType != StorageType.Hand)
-                return;
+            //if (CurrentPosition.StorageType != StorageType.Hand)
+            //    return;
 
             CurrentPosition.Clear();
             _draggingObj = gameObject;
+
+            _draggingObj.transform.position += new Vector3(0, 0, 1);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -52,28 +54,28 @@ namespace Cards
             _draggingObj.transform.position = draggingPosition;
         }
 
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 100f, 1 << 8))
-            {
-                CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
-                if (cardPosition.CardInPosition == null)
-                {
-                    cardPosition.SetCard(this);
-                    CurrentPosition = cardPosition;
-                }
-                else
-                {
-                    CurrentPosition.SetCard(this);
-                }
+        //public void OnEndDrag(PointerEventData eventData)
+        //{
+        //    if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 100f, 1 << 8))
+        //    {
+        //        CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
+        //        if (cardPosition.CardInPosition == null)
+        //        {
+        //            cardPosition.SetCard(this);
+        //            CurrentPosition = cardPosition;
+        //        }
+        //        else
+        //        {
+        //            CurrentPosition.SetCard(this);
+        //        }
 
-                _draggingObj = null;
-                return;
-            }
+        //        _draggingObj = null;
+        //        return;
+        //    }
 
-            CurrentPosition.SetCard(this);
-            _draggingObj = null;
-        }
+        //    CurrentPosition.SetCard(this);
+        //    _draggingObj = null;
+        //}
 
         public void SetProperties()
         {
@@ -84,6 +86,16 @@ namespace Cards
             DisplayType.text = propertiesData.Type.ToString();
             DisplayAttack.text = propertiesData.Attack.ToString();
             DisplayHealth.text = propertiesData.Health.ToString();
+        }
+
+        //public void OnDrag(PointerEventData eventData)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            throw new NotImplementedException();
         }
     }
 }

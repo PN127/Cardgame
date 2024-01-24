@@ -23,11 +23,7 @@ namespace Cards
         [SerializeField, OneLine(Header = LineHeader.Short)]
         private List<CardPropertiesData> _playersDeck;
 
-        [Header("StartingHand properties")]
-        [SerializeField]
-        private GameObject _blackout;
-        [SerializeField]
-        private float _step;
+        
         
 
         [SerializeField]
@@ -78,8 +74,7 @@ namespace Cards
 
         private void StartingHand()
         {
-            StartCoroutine(Eclipse());
-            _startingHand.TurnOnChildren(true);
+            _startingHand.ActiveStartHand(true);
             float waitTime = 0;
 
             List<int> ids = new List<int>();
@@ -87,7 +82,7 @@ namespace Cards
             {
                 int r = UnityEngine.Random.Range(0, _playersDeck.Count);
                 if (ids.Contains(r))
-                    break;
+                    continue;
                 ids.Add(r);
             }
 
@@ -100,25 +95,29 @@ namespace Cards
                     CreateCard(cardPosition, waitTime, id, out card);
                     ids.Remove(id);
                     waitTime += 1;
-                    StartCoroutine(Move(card, cardPosition, waitTime));
+                    StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
                 }
             }
+
         }
 
-        //private void AddCardsInPlayerHand()
-        //{
-        //    float waitTime = 0;
-        //    foreach (CardPosition cardPosition in _playerHand.CardPositions)
-        //    {
-        //        if (cardPosition.CardInPosition == null)
-        //        {
-        //            Card card;
-        //            CreateCard(cardPosition, waitTime, out card);
-        //            waitTime += 1;
-        //            StartCoroutine(Move(card, cardPosition, waitTime));
-        //        }
-        //    }
-        //}
+        public void AddCardsInPlayerHandByStartHand()
+        {
+            _startHandSelection = true;
+            _startingHand.ActiveStartHand(false);
+            float waitTime = 0;
+            foreach (CardPosition cardPosition in _playerHand.CardPositions)
+            {
+                if (cardPosition.CardInPosition == null)
+                {
+                    Card card = _startingHand.CardPositions[(int)waitTime].GetCard();
+                    waitTime += 1;
+                    StartCoroutine(Move(card, cardPosition, waitTime));
+                }
+                if (waitTime == 3)
+                    break;                
+            }
+        }
 
         private void CreateCard(CardPosition cardPosition, float waitTime, int id, out Card card)
         {
@@ -159,19 +158,29 @@ namespace Cards
             cardPosition.SetCard(card);
         }
 
-        private IEnumerator Eclipse()
+        private IEnumerator MoveStartCard(Card card, CardPosition cardPosition, float waitTime)
         {
-            _blackout.SetActive(true);
-            var c = _blackout.GetComponent<Renderer>().material.color;
-
-            while (c.a < 0.8)
+            while (waitTime > 0)
             {
-                c.a += _step/100;
-                _blackout.GetComponent<Renderer>().material.color = c;
+                waitTime -= Time.deltaTime;
                 yield return null;
             }
-            
+
+            card.gameObject.SetActive(true);
+            float time = 0f;
+            Vector3 startPos = card.transform.position;
+            while (time < 1f)
+            {
+                card.transform.position = Vector3.Lerp(startPos, cardPosition.GetCardPosition, time);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            cardPosition.SetCard(card);
+            _startingHand.Fullness();
+            Debug.Log("затмение завершено");
         }
+
+        
 
     }
 }
