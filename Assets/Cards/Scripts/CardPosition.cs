@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Cards
 {
-    public class CardPosition : MonoBehaviour
+    public class CardPosition : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]
         private StorageType _storageType;
@@ -33,6 +34,17 @@ namespace Cards
         private void Awake()
         {
             GetCardPosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            switch (_storageType)
+            {
+                case (StorageType.Deck):
+                    var deck = transform.parent.gameObject;
+                    deck.GetComponent<Deck>().OnPointerClick(eventData);
+                    break;
+            }
         }
     }
 }

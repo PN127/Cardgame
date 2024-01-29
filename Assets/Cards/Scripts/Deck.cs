@@ -179,8 +179,5 @@ namespace Cards
             _startingHand.Fullness();
             Debug.Log("затмение завершено");
         }
-
-        
-
     }
 }

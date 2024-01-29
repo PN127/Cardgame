@@ -9,6 +9,8 @@ namespace Cards
     public class StartingHand : MonoBehaviour
     {
         private List<CardPosition> _cardPositions;
+        private List<Card> _cardsForReplace;
+
         public IReadOnlyList<CardPosition> CardPositions => _cardPositions;
         [SerializeField]
         private Button buttonOK;
@@ -16,17 +18,22 @@ namespace Cards
         [SerializeField]
         private Canvas _canvas;
 
+        public GameObject RedCross;
+        
         [Header("StartingHand properties")]
         [SerializeField]
         private GameObject _blackout;
         [SerializeField]
         private float _step;
 
+        
+
         private void Awake()
         {
             buttonOK.interactable = false;
             _cardPositions = GetComponentsInChildren<CardPosition>().ToList();
             SwitchActiveChildren(false);
+            _cardsForReplace = new List<Card>();
         }
 
         public void ActiveStartHand(bool state)
@@ -86,6 +93,22 @@ namespace Cards
             buttonOK.interactable = true;
         }
 
+        public void Replace(Card card)
+        {
+            if (!_cardsForReplace.Contains(card))
+            {
+                _cardsForReplace.Add(card);
+                var red_cross = Instantiate(RedCross, card.transform);
+                red_cross.transform.position += new Vector3(0, 2, 0);
 
+                return;
+            }
+
+            if (_cardsForReplace.Contains(card))
+            {
+                _cardsForReplace.Remove(card);
+                Destroy(card.transform.Find(RedCross.name + "(Clone)").gameObject);
+            }            
+        }
     }
 }

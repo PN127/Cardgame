@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Cards
 {
-    public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
     {
         private static GameObject _draggingObj;
 
@@ -32,6 +32,13 @@ namespace Cards
         [SerializeField]
         private TMPro.TextMeshPro DisplayHealth;
 
+        private StartingHand _startingHand;
+
+        private void Awake()
+        {
+            _startingHand = FindObjectOfType<StartingHand>();
+
+        }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -96,6 +103,27 @@ namespace Cards
         public void OnEndDrag(PointerEventData eventData)
         {
             throw new NotImplementedException();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            switch (CurrentPosition.StorageType)
+            {
+                case (StorageType.Deck):
+                    var deck = CurrentPosition.transform.parent.gameObject;
+                    deck.GetComponent<Deck>().OnPointerClick(eventData);
+                    break;
+
+                case (StorageType.Starting):
+                    _startingHand.Replace(this);
+                    break;
+
+                case (StorageType.Hand):
+                    break;
+
+                case (StorageType.Table):
+                    break;
+            }
         }
     }
 }

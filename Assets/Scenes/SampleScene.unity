@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &101587386
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!65 &101587389
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &227568618
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &312519984
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &342762246
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,7 +840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &388818182
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &406663320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,8 +1002,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb7286cd1080bf04cbbf4a2265e52f38, type: 2}
   - {fileID: 11400000, guid: 93d377064370f4443970eeb9769fd723, type: 2}
   _playersDeck: []
-  _blackout: {fileID: 0}
-  _step: 0
   _idCardsForDeck: 00000000650000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!114 &406663323
 MonoBehaviour:
@@ -1174,7 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &470693831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!65 &470693834
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1388,7 +1386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &490152296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,8 +1520,6 @@ MonoBehaviour:
     Health: 0
     Type: 0
     InDeck: 0
-  _blackout: {fileID: 1063733955}
-  _step: 1
   _idCardsForDeck: 65000000cb0000009501000000000000f80100000000000065000000fa01000000000000000000000000000000000000650000000000000059020000000000005a020000bf02000000000000bd020000bd020000000000000000000095010000950100009501000000000000000000005902000000000000
 --- !u!114 &502338963
 MonoBehaviour:
@@ -1645,7 +1641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &678374025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,7 +1947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &894058689
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,7 +2080,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88fce3b8219b7974c805e787333d85f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonOK: {fileID: 1398340769}
   _canvas: {fileID: 1997626152}
+  RedCross: {fileID: 5396716754362712319, guid: c4a6b7f0a5f4a6243906665c4d5b2d0d,
+    type: 3}
+  _blackout: {fileID: 1063733955}
+  _step: 1
 --- !u!4 &923231904
 Transform:
   m_ObjectHideFlags: 0
@@ -2209,7 +2210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2263,7 +2264,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 70
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 27
   m_Depth: -1
   m_CullingMask:
@@ -2416,7 +2417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &1063733955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,7 +2745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &1368890311
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,7 +2852,7 @@ GameObject:
   - component: {fileID: 1398340770}
   - component: {fileID: 1398340769}
   m_Layer: 5
-  m_Name: Button
+  m_Name: OK_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2875,7 +2876,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -300}
-  m_SizeDelta: {x: 320, y: 60}
+  m_SizeDelta: {x: 280, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1398340769
 MonoBehaviour:
@@ -2919,7 +2920,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1398340770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 502338962}
+        m_MethodName: AddCardsInPlayerHandByStartHand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1398340770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3063,7 +3075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &1473951798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3170,7 +3182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &1575805704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3217,7 +3229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!65 &1575805707
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3491,7 +3503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &1645658111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,7 +3610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &1657423456
 GameObject:
   m_ObjectHideFlags: 0
@@ -3849,7 +3861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &1739843586
 GameObject:
   m_ObjectHideFlags: 0
@@ -3956,7 +3968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
 --- !u!1 &1804505954
 GameObject:
   m_ObjectHideFlags: 0
@@ -4063,7 +4075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &1882271096
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,7 +4430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &1983199462
 GameObject:
   m_ObjectHideFlags: 0
@@ -4557,7 +4569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!65 &1990653357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4823,7 +4835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 1
+  _storageType: 2
 --- !u!1 &2066933465
 GameObject:
   m_ObjectHideFlags: 0
@@ -4930,7 +4942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 2
+  _storageType: 3
 --- !u!1 &2083930164
 GameObject:
   m_ObjectHideFlags: 0
@@ -5037,7 +5049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 2
+  _storageType: 3
 --- !u!1 &2120675914
 GameObject:
   m_ObjectHideFlags: 0
@@ -5144,4 +5156,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1551df08ba61af49992a6cc6a92d11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageType: 0
+  _storageType: 1
