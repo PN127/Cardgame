@@ -13,7 +13,7 @@ namespace Cards
         private static GameObject _draggingObj;
 
         [NonSerialized]
-        public CardPosition CurrentPosition;
+        private CardPosition CurrentPosition;
         [NonSerialized]
         public CardPropertiesData propertiesData;
 
@@ -38,6 +38,16 @@ namespace Cards
         {
             _startingHand = FindObjectOfType<StartingHand>();
 
+        }
+
+        public void SetPosition(CardPosition position)
+        {
+            CurrentPosition = position;
+        }
+        public void ClearPosition()
+        {
+            CurrentPosition.Clear();
+            CurrentPosition = null;
         }
 
         public void OnBeginDrag(PointerEventData eventData)

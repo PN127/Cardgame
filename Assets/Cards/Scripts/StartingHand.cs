@@ -12,6 +12,8 @@ namespace Cards
         private List<Card> _cardsForReplace;
 
         public IReadOnlyList<CardPosition> CardPositions => _cardPositions;
+        public IReadOnlyList<Card> CardForReplace => _cardsForReplace;
+
         [SerializeField]
         private Button buttonOK;
 
@@ -50,7 +52,6 @@ namespace Cards
             }
             _canvas.gameObject.SetActive(state);
         }       
-
         private IEnumerator Eclipse(bool state)
         {
             if (state)
@@ -78,8 +79,7 @@ namespace Cards
                 }
             }
         }
-        
-        public void Fullness()
+        public void Fullness(bool startHandSelection, Deck deck)
         {
             foreach (CardPosition card in _cardPositions)
             {
@@ -91,6 +91,11 @@ namespace Cards
             }
             Debug.Log("стартовая рука заполнена");
             buttonOK.interactable = true;
+
+            if (!startHandSelection)
+                return;
+
+            deck.AddCardsInPlayerHandByStartHand();
         }
 
         public void Replace(Card card)
@@ -107,7 +112,8 @@ namespace Cards
             if (_cardsForReplace.Contains(card))
             {
                 _cardsForReplace.Remove(card);
-                Destroy(card.transform.Find(RedCross.name + "(Clone)").gameObject);
+                card.ClearPosition();
+                Destroy(card.transform.Find(RedCross.name + "(Clone)").gameObject);                
             }            
         }
     }

@@ -17,13 +17,14 @@ namespace Cards
         private StartingHand _startingHand;
         private bool _startHandSelection;
 
-        
+        //public bool StarHandSelection => _startHandSelection;
+
         [SerializeField]
         private CardPackConfiguration[] cardPacks; //to do
         [SerializeField, OneLine(Header = LineHeader.Short)]
         private List<CardPropertiesData> _playersDeck;
 
-        
+        private List<Card> _cardsInStartingHand;
         
 
         [SerializeField]
@@ -37,6 +38,7 @@ namespace Cards
             _startingHand = FindObjectOfType<StartingHand>();
             _playersDeck = new List<CardPropertiesData>();
             _startHandSelection = false;
+            _cardsInStartingHand = new List<Card>();
         }
 
         private void Start()
@@ -66,19 +68,19 @@ namespace Cards
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!_startHandSelection)
-                StartingHand();
-            //else
-            //    AddCardsInPlayerHand();
+            if (_startHandSelection)
+                return;
+
+            _startingHand.ActiveStartHand(true);
+            DistributeCards(3, _startingHand.CardPositions);            
         }
 
-        private void StartingHand()
-        {
-            _startingHand.ActiveStartHand(true);
+        private void DistributeCards(int volume, IReadOnlyList<CardPosition> positions)
+        {            
             float waitTime = 0;
 
             List<int> ids = new List<int>();
-            while (ids.Count < 3)
+            while (ids.Count < volume)
             {
                 int r = UnityEngine.Random.Range(0, _playersDeck.Count);
                 if (ids.Contains(r))
@@ -86,13 +88,14 @@ namespace Cards
                 ids.Add(r);
             }
 
-            foreach (CardPosition cardPosition in _startingHand.CardPositions)
+            foreach (CardPosition cardPosition in positions)
             {
                 if (cardPosition.CardInPosition == null)
                 {
                     int id = ids[0];
                     Card card;
-                    CreateCard(cardPosition, waitTime, id, out card);
+                    _cardCreator.CreaterCard(transform.position, _playersDeck[id], out card);
+                    _cardsInStartingHand.Add(card);
                     ids.Remove(id);
                     waitTime += 1;
                     StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
@@ -100,43 +103,51 @@ namespace Cards
             }
 
         }
+        
 
         public void AddCardsInPlayerHandByStartHand()
         {
-            _startHandSelection = true;
-            _startingHand.ActiveStartHand(false);
-            float waitTime = 0;
-            foreach (CardPosition cardPosition in _playerHand.CardPositions)
+
+            if (_startingHand.CardForReplace.Count == 0)
             {
-                if (cardPosition.CardInPosition == null)
+                _startHandSelection = true;
+                _startingHand.ActiveStartHand(false);
+
+                int waitTime = 0;
+                foreach (CardPosition cardPosition in _playerHand.CardPositions)
                 {
-                    Card card = _startingHand.CardPositions[(int)waitTime].GetCard();
-                    waitTime += 1;
-                    StartCoroutine(Move(card, cardPosition, waitTime));
+                    if (cardPosition.CardInPosition == null)
+                    {
+                        Card card = _cardsInStartingHand[waitTime];
+
+                        waitTime += 1;
+                        StartCoroutine(Move(card, cardPosition, waitTime));
+                    }
+                    if (waitTime == _cardsInStartingHand.Count)
+                        break;
                 }
-                if (waitTime == 3)
-                    break;                
+            }
+
+            if (_startingHand.CardForReplace.Count > 0)
+            {
+                _startHandSelection = true;
+                _startingHand.ActiveStartHand(false);
+
+                int waitTime = 0;
+                while (waitTime < _startingHand.CardForReplace.Count)
+                {
+                    Card card = _startingHand.CardForReplace[waitTime];
+                    _startingHand.Replace(card);
+                    _cardsInStartingHand.Remove(card);
+                    CardPosition cardPosition = GetComponentInChildren<CardPosition>();
+                    waitTime += 1;
+                    StartCoroutine(Move(card, cardPosition, waitTime));                    
+                }
+                DistributeCards(waitTime, _startingHand.CardPositions);
             }
         }
 
-        private void CreateCard(CardPosition cardPosition, float waitTime, int id, out Card card)
-        {
-            card = _cardCreator.CreaterCard(transform.position);
-            
-            CardFilling(card, _playersDeck[id]);
-            card.SetProperties();
-            card.gameObject.SetActive(false);
-        }
-        private void CardFilling(Card card, CardPropertiesData data)
-        {
-            card.propertiesData.Id = data.Id;
-            card.propertiesData.Cost = data.Cost;
-            card.propertiesData.Name = data.Name;
-            card.propertiesData.Texture = data.Texture;
-            card.propertiesData.Attack = data.Attack;
-            card.propertiesData.Health = data.Health;
-            card.propertiesData.Type = data.Type;
-        }
+        
 
         private IEnumerator Move(Card card, CardPosition cardPosition, float waitTime)
         {
@@ -176,8 +187,7 @@ namespace Cards
                 yield return null;
             }
             cardPosition.SetCard(card);
-            _startingHand.Fullness();
-            Debug.Log("затмение завершено");
+            _startingHand.Fullness(_startHandSelection, this);
         }
     }
 }
