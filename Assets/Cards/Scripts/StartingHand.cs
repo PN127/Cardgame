@@ -98,7 +98,7 @@ namespace Cards
             deck.AddCardsInPlayerHandByStartHand();
         }
 
-        public void Replace(Card card)
+        public void Replace(Card card, bool StartingHandSelection = false)
         {
             if (!_cardsForReplace.Contains(card))
             {
@@ -112,9 +112,10 @@ namespace Cards
             if (_cardsForReplace.Contains(card))
             {
                 _cardsForReplace.Remove(card);
-                card.ClearPosition();
-                Destroy(card.transform.Find(RedCross.name + "(Clone)").gameObject);                
-            }            
+                Destroy(card.transform.Find(RedCross.name + "(Clone)").gameObject);
+                if (StartingHandSelection)
+                    card.ClearPosition();
+            }
         }
     }
 }

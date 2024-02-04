@@ -134,10 +134,11 @@ namespace Cards
                 _startingHand.ActiveStartHand(false);
 
                 int waitTime = 0;
-                while (waitTime < _startingHand.CardForReplace.Count)
+                int count = _startingHand.CardForReplace.Count;
+                while (waitTime < count)
                 {
-                    Card card = _startingHand.CardForReplace[waitTime];
-                    _startingHand.Replace(card);
+                    Card card = _startingHand.CardForReplace[0];
+                    _startingHand.Replace(card, _startHandSelection);
                     _cardsInStartingHand.Remove(card);
                     CardPosition cardPosition = GetComponentInChildren<CardPosition>();
                     waitTime += 1;
@@ -145,9 +146,7 @@ namespace Cards
                 }
                 DistributeCards(waitTime, _startingHand.CardPositions);
             }
-        }
-
-        
+        }        
 
         private IEnumerator Move(Card card, CardPosition cardPosition, float waitTime)
         {
