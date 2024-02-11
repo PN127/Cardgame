@@ -12,6 +12,8 @@ namespace Cards
     [RequireComponent(typeof(CardCreator))]
     public class Deck : MonoBehaviour, IPointerClickHandler
     {
+        private Player _owner;
+
         private CardCreator _cardCreator;
         private PlayerHand _playerHand;
         private StartingHand _startingHand;
@@ -33,8 +35,8 @@ namespace Cards
 
         private void Awake()
         {
+            _owner = GetComponentInParent<Player>();
             _cardCreator = GetComponent<CardCreator>();
-            _playerHand = FindObjectOfType<PlayerHand>();
             _startingHand = FindObjectOfType<StartingHand>();
             _playersDeck = new List<CardPropertiesData>();
             _startHandSelection = false;
@@ -43,6 +45,7 @@ namespace Cards
 
         private void Start()
         {
+            _playerHand = _owner.GetPlayerHand;
             CreateDeck();
         }
        

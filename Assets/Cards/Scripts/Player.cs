@@ -13,10 +13,11 @@ namespace Cards
         private PlayerHand _hand;
         public PlayerHand GetPlayerHand => _hand;
 
-        private void Start()
+        private void Awake()
         {
             _deck = GetComponentInChildren<Deck>();
             _hand = GetComponentInChildren<PlayerHand>();
         }
+        
     }
 }

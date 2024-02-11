@@ -27,8 +27,12 @@ namespace Cards
             else
             {
                 _walker = _players[0];
-            }
-            
+            }            
+        }
+
+        public void SelectStartingHand()
+        {
+            _walker.GetDeck.AddCardsInPlayerHandByStartHand();
         }
     }
 }
