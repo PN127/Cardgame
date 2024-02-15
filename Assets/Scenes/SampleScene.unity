@@ -1100,8 +1100,50 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3229ff84acff46246a9bd0591a1ab7f6, type: 2}
   - {fileID: 11400000, guid: cb7286cd1080bf04cbbf4a2265e52f38, type: 2}
   - {fileID: 11400000, guid: 93d377064370f4443970eeb9769fd723, type: 2}
-  _playersDeck: []
-  _idCardsForDeck: 00000000650000000000000000000000000000000000000000000000000000000000000000000000
+  _playersDeck:
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  - Id: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+  _idCardsForDeck: 65000000650000006500000065000000650000006500000065000000650000006500000065000000
 --- !u!114 &406663323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,7 +1675,7 @@ MonoBehaviour:
     Health: 0
     Type: 0
     InDeck: 0
-  _idCardsForDeck: 65000000cb0000009501000000000000f80100000000000065000000fa01000000000000000000000000000000000000650000000000000059020000000000005a020000bf02000000000000bd020000bd020000000000000000000095010000950100009501000000000000000000005902000000000000
+  _idCardsForDeck: 00000000cb0000009501000000000000f80100000000000000000000fa01000000000000000000000000000000000000000000000000000059020000000000005a020000bf02000000000000bd020000bd020000000000000000000095010000950100009501000000000000000000005902000000000000
 --- !u!114 &502338963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3275,8 +3317,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502338962}
-        m_MethodName: AddCardsInPlayerHandByStartHand
+      - m_Target: {fileID: 1249770035}
+        m_MethodName: SelectStartingHand
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
