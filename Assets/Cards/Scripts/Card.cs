@@ -135,5 +135,45 @@ namespace Cards
                     break;
             }
         }
+
+        public void Twist_method()
+        {
+            StartCoroutine(Twist());
+        }
+
+        private IEnumerator Twist()
+        {
+            while (transform.position.y < 5)
+            {
+                transform.position += Vector3.up * 3f * Time.deltaTime;
+                yield return null;
+            }
+            Vector3 pos = transform.position;
+            pos.y = 5.01f;
+            transform.position = pos;
+
+            float t = 0;
+            while (t < 1)
+            {
+                transform.rotation *= Quaternion.Euler(new Vector3(0, 0, 180) * 1f * Time.deltaTime);
+                t += Time.deltaTime;     
+                yield return null;
+            }
+            if (transform.rotation.z > 0.5)
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+            else
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+
+            while (transform.position.y > 0.3)
+            {
+                transform.position -= Vector3.up * 3f * Time.deltaTime;
+                yield return null;
+            }
+            pos = transform.position;
+            pos.y = 0.3f;
+            transform.position = pos;
+        }
+
+
     }
 }

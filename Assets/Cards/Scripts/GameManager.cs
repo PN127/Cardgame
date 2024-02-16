@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Cards
@@ -15,8 +17,7 @@ namespace Cards
         [Space]
         [SerializeField]
         private Player[] _players;
-
-       
+               
 
         private void Start()
         {            
@@ -25,8 +26,9 @@ namespace Cards
 
         public void MoveTransitiion()
         {
-            Vector3 rotation;
+            _walker.FlipCards();
 
+            Vector3 rotation;
             if (_walker == _players[0])
             {
                 _walker = _players[1];
@@ -39,6 +41,7 @@ namespace Cards
             }
 
             StartCoroutine(CameraRotation(rotation));
+            WaitFlipCardsAsync();
         }
 
         public void SelectStartingHand()
@@ -48,16 +51,23 @@ namespace Cards
 
         private IEnumerator CameraRotation(Vector3 FinishRotation)
         {
-            float t = 0;
-            while (t < 10)
+            float time = 0;
+            while (time < 10)
             {
                 camera.transform.rotation *= Quaternion.Euler(new Vector3(0,0,180) * 0.1f * Time.deltaTime);
-                t += Time.deltaTime;
+                time += Time.deltaTime;               
+
                 yield return null;
             }
 
             camera.transform.rotation = Quaternion.Euler(FinishRotation);
             Debug.Log("finish");
+        }
+
+        private async void WaitFlipCardsAsync()
+        {
+            await Task.Run(() => Thread.Sleep(5000));
+            _walker.FlipCards();
         }
     }
 }

@@ -18,6 +18,18 @@ namespace Cards
             _deck = GetComponentInChildren<Deck>();
             _hand = GetComponentInChildren<PlayerHand>();
         }
+
+        public void FlipCards()
+        {
+            foreach (CardPosition position in _hand.CardPositions)
+            {
+                Card card = position.GetCard();
+                if (card == null)
+                    return;
+                card.Twist_method();
+            }
+
+        }
         
     }
 }

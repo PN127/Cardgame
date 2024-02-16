@@ -2983,6 +2983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _walker: {fileID: 0}
+  camera: {fileID: 963194227}
   _players:
   - {fileID: 1910198660}
   - {fileID: 1346033740}

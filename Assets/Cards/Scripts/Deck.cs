@@ -121,12 +121,13 @@ namespace Cards
                 {
                     if (cardPosition.CardInPosition == null)
                     {
-                        Card card = _cardsInStartingHand[waitTime];
-
+                        Card card = _cardsInStartingHand[0];
+                        card.ClearPosition();
+                        _cardsInStartingHand.Remove(card);
                         waitTime += 1;
                         StartCoroutine(Move(card, cardPosition, waitTime));
                     }
-                    if (waitTime == _cardsInStartingHand.Count)
+                    if (waitTime == 3)
                         break;
                 }
             }
