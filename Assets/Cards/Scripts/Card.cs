@@ -12,7 +12,7 @@ namespace Cards
     {
         private static GameObject _draggingObj;
 
-        [NonSerialized]
+        [SerializeField]
         private CardPosition CurrentPosition;
         [NonSerialized]
         public CardPropertiesData propertiesData;
@@ -173,7 +173,5 @@ namespace Cards
             pos.y = 0.3f;
             transform.position = pos;
         }
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using OneLine;
+﻿using DG.Tweening;
+using OneLine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Cards
         private List<CardPropertiesData> _playersDeck;
 
         private List<Card> _cardsInStartingHand;
-        
+
 
         [SerializeField]
         [Header("Укажите id карт, которые будут в колоде")]
@@ -71,15 +72,24 @@ namespace Cards
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_startHandSelection)
-                return;
+            if (!_startHandSelection)
+            {
+                if(_owner.gameObject.name == "Player2")
+                {
+                    foreach (CardPosition position in _startingHand.CardPositions)
+                    {
+                        position.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    }
+                }
+                _startingHand.ActiveStartHand(true);
+                DistributeCards(3, _startingHand.CardPositions);
+            }
 
-            _startingHand.ActiveStartHand(true);
-            DistributeCards(3, _startingHand.CardPositions);            
+                        
         }
 
         private void DistributeCards(int volume, IReadOnlyList<CardPosition> positions)
-        {            
+        {
             float waitTime = 0;
 
             List<int> ids = new List<int>();
@@ -97,20 +107,18 @@ namespace Cards
                 {
                     int id = ids[0];
                     Card card;
-                    _cardCreator.CreaterCard(transform.position, _playersDeck[id], out card);
+                    _cardCreator.CreaterCard(transform, _playersDeck[id], out card);
                     _cardsInStartingHand.Add(card);
                     ids.Remove(id);
                     waitTime += 1;
                     StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
                 }
             }
-
         }
         
 
         public void AddCardsInPlayerHandByStartHand()
         {
-
             if (_startingHand.CardForReplace.Count == 0)
             {
                 _startHandSelection = true;
@@ -134,6 +142,7 @@ namespace Cards
 
             if (_startingHand.CardForReplace.Count > 0)
             {
+                Tween _tween;
                 _startHandSelection = true;
                 _startingHand.ActiveStartHand(false);
 
@@ -144,9 +153,10 @@ namespace Cards
                     Card card = _startingHand.CardForReplace[0];
                     _startingHand.Replace(card, _startHandSelection);
                     _cardsInStartingHand.Remove(card);
-                    CardPosition cardPosition = GetComponentInChildren<CardPosition>();
+                    CardPosition DeckPosition = GetComponentInChildren<CardPosition>();
                     waitTime += 1;
-                    StartCoroutine(Move(card, cardPosition, waitTime));                    
+                    //StartCoroutine(Move(card, DeckPosition, waitTime));
+                    _tween = card.transform.DOMove(DeckPosition.transform.position, 2f).OnComplete(() => Destroy(card.gameObject));
                 }
                 DistributeCards(waitTime, _startingHand.CardPositions);
             }
