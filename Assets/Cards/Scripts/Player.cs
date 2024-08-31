@@ -30,6 +30,11 @@ namespace Cards
             }
 
         }
+
+        public void EndOfTurn()
+        {
+            _deck.EndOfTurn();
+        }
         
     }
 }

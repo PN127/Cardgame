@@ -9,7 +9,8 @@ namespace Cards
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
-        private Player _walker;
+        private static Player _walker;
+        public static Player GetWalker => _walker;
         
         [SerializeField]
         private Camera camera;
@@ -20,28 +21,37 @@ namespace Cards
                
 
         private void Start()
-        {            
+        {
             _walker = _players[0];
         }
 
-        public void MoveTransitiion()
+        public void TransferTurn()
         {
             _walker.FlipCards();
+            ChangeWalker();
+            WaitFlipCardsAsync();
+        }
 
+        private void ChangeWalker()
+        {
             Vector3 rotation;
+            _walker.EndOfTurn();
+
             if (_walker == _players[0])
             {
                 _walker = _players[1];
                 rotation = new Vector3(90, 180, 0);
             }
             else
-            {
+            {                
                 _walker = _players[0];
                 rotation = new Vector3(90, 0, 0);
             }
+            
 
-            StartCoroutine(CameraRotation(rotation));
-            WaitFlipCardsAsync();
+            if (camera.transform.rotation != Quaternion.Euler(rotation))
+                StartCoroutine(CameraRotation(rotation));
+            
         }
 
         public void SelectStartingHand()

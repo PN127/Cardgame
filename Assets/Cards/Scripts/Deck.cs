@@ -19,6 +19,7 @@ namespace Cards
         private PlayerHand _playerHand;
         private StartingHand _startingHand;
         private bool _startHandSelection;
+        private bool _cardNotIssue;
 
         //public bool StarHandSelection => _startHandSelection;
 
@@ -47,6 +48,7 @@ namespace Cards
         private void Start()
         {
             _playerHand = _owner.GetPlayerHand;
+            _cardNotIssue = true;
             CreateDeck();
         }
        
@@ -72,22 +74,29 @@ namespace Cards
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!_startHandSelection)
-            {
-                if(_owner.gameObject.name == "Player2")
+            if (_owner == GameManager.GetWalker && _cardNotIssue)
+             {
+                if (!_startHandSelection)
                 {
-                    foreach (CardPosition position in _startingHand.CardPositions)
+                    if (_owner.gameObject.name == "Player2")
                     {
-                        position.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                        foreach (CardPosition position in _startingHand.CardPositions)
+                        {
+                            position.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                        }
                     }
+                    _startingHand.ActiveStartHand(true);
+                    DistributeCards(3, _startingHand.CardPositions);
                 }
-                _startingHand.ActiveStartHand(true);
-                DistributeCards(3, _startingHand.CardPositions);
+                else
+                {                    
+                    DistributeCards(1, _playerHand.CardPositions);
+                }
+                _cardNotIssue = false;
             }
-
-                        
         }
 
+        //разадача определенного кол-ва карт (volume) и перемещение карты в позицию (positions)
         private void DistributeCards(int volume, IReadOnlyList<CardPosition> positions)
         {
             float waitTime = 0;
@@ -101,20 +110,21 @@ namespace Cards
                 ids.Add(r);
             }
 
-            foreach (CardPosition cardPosition in positions)
-            {
-                if (cardPosition.CardInPosition == null)
+             foreach (CardPosition cardPosition in positions)
+             {
+                 if (cardPosition.CardInPosition == null && ids.Count > 0)
                 {
                     int id = ids[0];
                     Card card;
                     _cardCreator.CreaterCard(transform, _playersDeck[id], out card);
                     _cardsInStartingHand.Add(card);
-                    ids.Remove(id);
+                     ids.Remove(id);
                     waitTime += 1;
-                    StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
+                     StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
+
                 }
-            }
-        }
+             }
+                  }
         
 
         public void AddCardsInPlayerHandByStartHand()
@@ -133,7 +143,7 @@ namespace Cards
                         card.ClearPosition();
                         _cardsInStartingHand.Remove(card);
                         waitTime += 1;
-                        StartCoroutine(Move(card, cardPosition, waitTime));
+                        StartCoroutine(MoveCardTo(card, cardPosition, waitTime));
                     }
                     if (waitTime == 3)
                         break;
@@ -160,9 +170,14 @@ namespace Cards
                 }
                 DistributeCards(waitTime, _startingHand.CardPositions);
             }
-        }        
+        }   
+        
+        public void EndOfTurn()
+        {
+            _cardNotIssue = true;
+        }
 
-        private IEnumerator Move(Card card, CardPosition cardPosition, float waitTime)
+        private IEnumerator MoveCardTo(Card card, CardPosition cardPosition, float waitTime)
         {
             while (waitTime > 0)
             {
