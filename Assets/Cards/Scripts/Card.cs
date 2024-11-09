@@ -16,6 +16,7 @@ namespace Cards
         private CardPosition CurrentPosition;
         [NonSerialized]
         public CardPropertiesData propertiesData;
+        
 
         [SerializeField]
         private GameObject materialImage;
@@ -33,11 +34,12 @@ namespace Cards
         private TMPro.TextMeshPro DisplayHealth;
 
         private StartingHand _startingHand;
+        private Collider _collider;
 
         private void Awake()
-        {
+        {           
             _startingHand = FindObjectOfType<StartingHand>();
-
+            _collider = GetComponent<Collider>();
         }
 
         public void SetPosition(CardPosition position)
@@ -48,6 +50,22 @@ namespace Cards
         {
             CurrentPosition.Clear();
             CurrentPosition = null;
+        }
+
+        public void ColliderSwitch(bool enabled)
+        {
+            _collider.enabled = enabled;
+        }
+
+        public void OnMouseEnter()
+        {
+            transform.position += new Vector3(0, 0, 3);
+            transform.localScale += transform.localScale;
+        }
+        public void OnMouseExit()
+        {
+            transform.position -= new Vector3(0, 0, 3);
+            transform.localScale -= transform.localScale/2;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -138,6 +156,7 @@ namespace Cards
 
         public void Twist_method()
         {
+            
             StartCoroutine(Twist());
         }
 

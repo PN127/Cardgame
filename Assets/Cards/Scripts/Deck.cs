@@ -19,7 +19,7 @@ namespace Cards
         private PlayerHand _playerHand;
         private StartingHand _startingHand;
         private bool _startHandSelection;
-        private bool _cardNotIssue;
+        private bool _cardIssue;
 
         //public bool StarHandSelection => _startHandSelection;
 
@@ -48,10 +48,12 @@ namespace Cards
         private void Start()
         {
             _playerHand = _owner.GetPlayerHand;
-            _cardNotIssue = true;
+            _cardIssue = false;
             CreateDeck();
         }
        
+
+        //Создание колоды
         private void CreateDeck()
         {
             var _copyId = new List<uint>(_idCardsForDeck);
@@ -72,12 +74,18 @@ namespace Cards
             }
         }
         
+        //Нажатие на колоду
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_owner == GameManager.GetWalker && _cardNotIssue)
+            if (_owner == GameManager.GetWalker && !_cardIssue)
              {
-                if (!_startHandSelection)
+                
+                if (_startHandSelection)
                 {
+                    DistributeCards(1, _playerHand.CardPositions);
+                }
+                else
+                {                    
                     if (_owner.gameObject.name == "Player2")
                     {
                         foreach (CardPosition position in _startingHand.CardPositions)
@@ -88,11 +96,7 @@ namespace Cards
                     _startingHand.ActiveStartHand(true);
                     DistributeCards(3, _startingHand.CardPositions);
                 }
-                else
-                {                    
-                    DistributeCards(1, _playerHand.CardPositions);
-                }
-                _cardNotIssue = false;
+                _cardIssue = true;
             }
         }
 
@@ -110,23 +114,25 @@ namespace Cards
                 ids.Add(r);
             }
 
-             foreach (CardPosition cardPosition in positions)
-             {
-                 if (cardPosition.CardInPosition == null && ids.Count > 0)
+            foreach (CardPosition cardPosition in positions)
+            {
+                if (cardPosition.CardInPosition == null && ids.Count > 0)
                 {
                     int id = ids[0];
-                    Card card;
+                    Card card;                   
                     _cardCreator.CreaterCard(transform, _playersDeck[id], out card);
                     _cardsInStartingHand.Add(card);
-                     ids.Remove(id);
+                    ids.Remove(id);
                     waitTime += 1;
-                     StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
+
+                    StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
 
                 }
-             }
-                  }
+            }
+        }
         
 
+        //Выдача карт в стартовую руку игрока
         public void AddCardsInPlayerHandByStartHand()
         {
             if (_startingHand.CardForReplace.Count == 0)
@@ -172,13 +178,17 @@ namespace Cards
             }
         }   
         
+
+        //Метод вызывается из Player для окончания хода
         public void EndOfTurn()
         {
-            _cardNotIssue = true;
+            _cardIssue = false;
         }
 
         private IEnumerator MoveCardTo(Card card, CardPosition cardPosition, float waitTime)
         {
+            card.ColliderSwitch(false);
+
             while (waitTime > 0)
             {
                 waitTime -= Time.deltaTime;
@@ -195,10 +205,12 @@ namespace Cards
                 yield return null;
             }
             cardPosition.SetCard(card);
+            card.ColliderSwitch(true);
         }
 
         private IEnumerator MoveStartCard(Card card, CardPosition cardPosition, float waitTime)
         {
+            card.ColliderSwitch(false);
             while (waitTime > 0)
             {
                 waitTime -= Time.deltaTime;
@@ -216,6 +228,7 @@ namespace Cards
             }
             cardPosition.SetCard(card);
             _startingHand.Fullness(_startHandSelection, this);
+            card.ColliderSwitch(true);
         }
     }
 }

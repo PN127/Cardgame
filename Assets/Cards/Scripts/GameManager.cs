@@ -54,6 +54,7 @@ namespace Cards
             
         }
 
+        //Метод вызывается через кнопку SampleScene.StartHand.Canvas.OK_Button
         public void SelectStartingHand()
         {
             _walker.GetDeck.AddCardsInPlayerHandByStartHand();
@@ -62,9 +63,9 @@ namespace Cards
         private IEnumerator CameraRotation(Vector3 FinishRotation)
         {
             float time = 0;
-            while (time < 10)
+            while (time < 2)
             {
-                camera.transform.rotation *= Quaternion.Euler(new Vector3(0,0,180) * 0.1f * Time.deltaTime);
+                camera.transform.rotation *= Quaternion.Euler(new Vector3(0,0,180) * 0.5f * Time.deltaTime);
                 time += Time.deltaTime;               
 
                 yield return null;
