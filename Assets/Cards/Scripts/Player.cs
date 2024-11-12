@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Cards
 {
@@ -12,11 +14,28 @@ namespace Cards
         [SerializeField]
         private PlayerHand _hand;
         public PlayerHand GetPlayerHand => _hand;
+        [SerializeField]
+        private int _manascore;
+        public int GetManaScoe => _manascore;
+        [SerializeField]
+        private int _step;
+        public int GetStep => _step;
+
+        [SerializeField]
+        private Text _manaSoreText;
+
+        private Mana _mana;
 
         private void Awake()
         {
             _deck = GetComponentInChildren<Deck>();
             _hand = GetComponentInChildren<PlayerHand>();
+            _mana = new Mana();
+        }
+
+        private void Start()
+        {
+            
         }
 
         public void FlipCards()
@@ -28,12 +47,22 @@ namespace Cards
                     return;
                 card.Twist_method();
             }
-
         }
+
+        public void AddManaScore()
+        {
+            _step++;
+            _manaSoreText.gameObject.SetActive(true);
+            _manascore += _mana.Scoring(this);
+            _manaSoreText.text = _manascore.ToString();
+        }
+                
 
         public void EndOfTurn()
         {
             _deck.EndOfTurn();
+            _manaSoreText.gameObject.SetActive(false);
+            
         }
         
     }

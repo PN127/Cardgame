@@ -125,59 +125,57 @@ namespace Cards
                     ids.Remove(id);
                     waitTime += 1;
 
-                    StartCoroutine(MoveStartCard(card, cardPosition, waitTime));
+                    StartCoroutine(MoveCardTo(card, cardPosition, waitTime));
 
                 }
             }
         }
-        
 
-        //Выдача карт в стартовую руку игрока
-        public void AddCardsInPlayerHandByStartHand()
+        //Выдача карт из стартовой руки
+        public void CardIsssuing()
         {
-            if (_startingHand.CardForReplace.Count == 0)
+            _startHandSelection = true;
+            _startingHand.ActiveStartHand(false);
+
+            int waitTime = 0;
+            foreach (CardPosition cardPosition in _playerHand.CardPositions)
             {
-                _startHandSelection = true;
-                _startingHand.ActiveStartHand(false);
-
-                int waitTime = 0;
-                foreach (CardPosition cardPosition in _playerHand.CardPositions)
+                if (cardPosition.CardInPosition == null)
                 {
-                    if (cardPosition.CardInPosition == null)
-                    {
-                        Card card = _cardsInStartingHand[0];
-                        card.ClearPosition();
-                        _cardsInStartingHand.Remove(card);
-                        waitTime += 1;
-                        StartCoroutine(MoveCardTo(card, cardPosition, waitTime));
-                    }
-                    if (waitTime == 3)
-                        break;
-                }
-            }
-
-            if (_startingHand.CardForReplace.Count > 0)
-            {
-                Tween _tween;
-                _startHandSelection = true;
-                _startingHand.ActiveStartHand(false);
-
-                int waitTime = 0;
-                int count = _startingHand.CardForReplace.Count;
-                while (waitTime < count)
-                {
-                    Card card = _startingHand.CardForReplace[0];
-                    _startingHand.Replace(card, _startHandSelection);
+                    Card card = _cardsInStartingHand[0];
+                    card.ClearPosition();
                     _cardsInStartingHand.Remove(card);
-                    CardPosition DeckPosition = GetComponentInChildren<CardPosition>();
                     waitTime += 1;
-                    //StartCoroutine(Move(card, DeckPosition, waitTime));
-                    _tween = card.transform.DOMove(DeckPosition.transform.position, 2f).OnComplete(() => Destroy(card.gameObject));
+                    StartCoroutine(MoveCardTo(card, cardPosition, waitTime));
                 }
-                DistributeCards(waitTime, _startingHand.CardPositions);
+                if (waitTime == 3)
+                    break;
             }
-        }   
-        
+        }
+
+        //Замена карт в стартовой руке игрока
+        public void CardReplecment()
+        {
+            Tween _tween;
+            _startHandSelection = true;
+            _startingHand.ActiveStartHand(false);
+
+            int waitTime = 0;
+            int count = _startingHand.CardForReplace.Count;
+            while (waitTime < count)
+            {
+                Card card = _startingHand.CardForReplace[0];
+                card.ColliderSwitch(false);
+                _startingHand.Replace(card, _startHandSelection);
+                _cardsInStartingHand.Remove(card);
+                CardPosition DeckPosition = GetComponentInChildren<CardPosition>();
+                waitTime += 1;
+                //StartCoroutine(Move(card, DeckPosition, waitTime));
+                _tween = card.transform.DOMove(DeckPosition.transform.position, 2f).OnComplete(() => Destroy(card.gameObject));
+            }
+            DistributeCards(waitTime, _startingHand.CardPositions);
+        }
+                
 
         //Метод вызывается из Player для окончания хода
         public void EndOfTurn()
@@ -206,29 +204,8 @@ namespace Cards
             }
             cardPosition.SetCard(card);
             card.ColliderSwitch(true);
-        }
-
-        private IEnumerator MoveStartCard(Card card, CardPosition cardPosition, float waitTime)
-        {
-            card.ColliderSwitch(false);
-            while (waitTime > 0)
-            {
-                waitTime -= Time.deltaTime;
-                yield return null;
-            }
-
-            card.gameObject.SetActive(true);
-            float time = 0f;
-            Vector3 startPos = card.transform.position;
-            while (time < 1f)
-            {
-                card.transform.position = Vector3.Lerp(startPos, cardPosition.GetCardPosition, time);
-                time += Time.deltaTime;
-                yield return null;
-            }
-            cardPosition.SetCard(card);
-            _startingHand.Fullness(_startHandSelection, this);
-            card.ColliderSwitch(true);
-        }
+            if(!_startHandSelection)
+                _startingHand.Fullness(_startHandSelection, this);
+        }        
     }
 }

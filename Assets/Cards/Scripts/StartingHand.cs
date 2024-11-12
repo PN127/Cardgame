@@ -26,7 +26,7 @@ namespace Cards
         [SerializeField]
         private GameObject _blackout;
         [SerializeField]
-        private float _step;
+        private float _stepToBlack;
 
         
 
@@ -61,7 +61,7 @@ namespace Cards
 
                 while (c.a < 0.8)
                 {
-                    c.a += _step / 100;
+                    c.a += _stepToBlack / 100;
                     _blackout.GetComponent<Renderer>().material.color = c;
                     yield return null;
                 }
@@ -72,11 +72,12 @@ namespace Cards
 
                 while (c.a > 0.8)
                 {
-                    c.a -= _step / 100;
+                    c.a -= _stepToBlack / 100;
                     _blackout.GetComponent<Renderer>().material.color = c;
                     yield return null;
-                    _blackout.SetActive(state);
+                    
                 }
+                _blackout.SetActive(state);
             }
         }
         public void Fullness(bool startHandSelection, Deck deck)
@@ -95,11 +96,13 @@ namespace Cards
             if (!startHandSelection)
                 return;
 
-            deck.AddCardsInPlayerHandByStartHand();
+            deck.CardIsssuing();
         }
 
+        // Замена и удаление карты
         public void Replace(Card card, bool StartingHandSelection = false)
         {
+            // Если карта не содержиться в списке _cardsForReplace (список карт на удаление), то на ней ставится красный крест
             if (!_cardsForReplace.Contains(card))
             {
                 _cardsForReplace.Add(card);
@@ -109,6 +112,7 @@ namespace Cards
                 return;
             }
 
+            // Если карта содержится в списке _cardsForReplace, то карта удаляется
             if (_cardsForReplace.Contains(card))
             {
                 _cardsForReplace.Remove(card);
