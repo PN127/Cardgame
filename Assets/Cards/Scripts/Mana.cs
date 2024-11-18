@@ -16,5 +16,11 @@ namespace Cards
             return score;
         }
 
+        public int MinusMana(Card card)
+        {
+            int score = 0;
+            return score;
+        }
+
     }
 }

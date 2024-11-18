@@ -13,7 +13,8 @@ namespace Cards
         private static GameObject _draggingObj;
 
         [SerializeField]
-        private CardPosition CurrentPosition;
+        private CardPosition _currentPosition;
+        public CardPosition GetCurrentPosition => _currentPosition;
         [NonSerialized]
         public CardPropertiesData propertiesData;
         
@@ -35,6 +36,10 @@ namespace Cards
 
         private StartingHand _startingHand;
         private Collider _collider;
+        private Mana _mana;
+        [SerializeField]
+        private Vector3 _firstPosition;
+        private StorageType _firstStorageType;
 
         private void Awake()
         {           
@@ -42,14 +47,19 @@ namespace Cards
             _collider = GetComponent<Collider>();
         }
 
+        private void Start()
+        {
+            _mana = new Mana();
+        }
+
         public void SetPosition(CardPosition position)
         {
-            CurrentPosition = position;
+            _currentPosition = position;
         }
         public void ClearPosition()
         {
-            CurrentPosition.Clear();
-            CurrentPosition = null;
+            _currentPosition.Clear();
+            _currentPosition = null;
         }
 
         public void ColliderSwitch(bool enabled)
@@ -59,24 +69,30 @@ namespace Cards
 
         public void OnMouseEnter()
         {
+            if (_firstPosition == Vector3.zero) _firstPosition = transform.position;
+            _firstStorageType = _currentPosition.StorageType;
             transform.position += new Vector3(0, 0, 3);
             transform.localScale += transform.localScale;
         }
         public void OnMouseExit()
         {
             transform.position -= new Vector3(0, 0, 3);
-            transform.localScale -= transform.localScale/2;
+            transform.localScale -= transform.localScale / 2;
+            if (_firstPosition != null)
+            {
+                transform.position = _firstPosition;
+                _firstPosition = Vector3.zero;
+            }
         }
-
         public void OnBeginDrag(PointerEventData eventData)
         {
             //if (CurrentPosition.StorageType != StorageType.Hand)
             //    return;
 
-            CurrentPosition.Clear();
+            _currentPosition.Clear();
             _draggingObj = gameObject;
 
-            _draggingObj.transform.position += new Vector3(0, 0, 1);
+            _draggingObj.transform.position += new Vector3(0, 3, 0);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -89,28 +105,30 @@ namespace Cards
             _draggingObj.transform.position = draggingPosition;
         }
 
-        //public void OnEndDrag(PointerEventData eventData)
-        //{
-        //    if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 100f, 1 << 8))
-        //    {
-        //        CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
-        //        if (cardPosition.CardInPosition == null)
-        //        {
-        //            cardPosition.SetCard(this);
-        //            CurrentPosition = cardPosition;
-        //        }
-        //        else
-        //        {
-        //            CurrentPosition.SetCard(this);
-        //        }
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 100f, 1 << 8))
+            {
+                CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
+                if (cardPosition.CardInPosition == null)
+                {
+                    cardPosition.SetCard(this);
+                    _currentPosition = cardPosition;
+                    _firstPosition = cardPosition.transform.position + new Vector3(0, 0.2f, 0);
+                    if (_firstStorageType == StorageType.Hand && _currentPosition.StorageType == StorageType.Table) ; //добавить метод в Player с передачей карты, чтобы из Player вызывался метод Mana.MinusMana
+                }
+                else
+                {
+                    _currentPosition.SetCard(this);
+                }
 
-        //        _draggingObj = null;
-        //        return;
-        //    }
+                _draggingObj = null;
+                return;
+            }
 
-        //    CurrentPosition.SetCard(this);
-        //    _draggingObj = null;
-        //}
+            _currentPosition.SetCard(this);
+            _draggingObj = null;
+        }
 
         public void SetProperties()
         {
@@ -123,22 +141,12 @@ namespace Cards
             DisplayHealth.text = propertiesData.Health.ToString();
         }
 
-        //public void OnDrag(PointerEventData eventData)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            throw new NotImplementedException();
-        }
-
         public void OnPointerClick(PointerEventData eventData)
         {
-            switch (CurrentPosition.StorageType)
+            switch (_currentPosition.StorageType)
             {
                 case (StorageType.Deck):
-                    var deck = CurrentPosition.transform.parent.gameObject;
+                    var deck = _currentPosition.transform.parent.gameObject;
                     deck.GetComponent<Deck>().OnPointerClick(eventData);
                     break;
 

@@ -19,7 +19,7 @@ namespace Cards
         {
             CardInPosition = card;
             CardInPosition.transform.position = GetCardPosition;
-            card.SetPosition(this);
+            CardInPosition.SetPosition(this);
         }
         public Card GetCard()
         {

@@ -125,6 +125,7 @@ namespace Cards
                     ids.Remove(id);
                     waitTime += 1;
 
+
                     StartCoroutine(MoveCardTo(card, cardPosition, waitTime));
 
                 }
@@ -204,8 +205,10 @@ namespace Cards
             }
             cardPosition.SetCard(card);
             card.ColliderSwitch(true);
-            if(!_startHandSelection)
+            if (cardPosition.StorageType == StorageType.Starting)
+            {
                 _startingHand.Fullness(_startHandSelection, this);
+            }
         }        
     }
 }
