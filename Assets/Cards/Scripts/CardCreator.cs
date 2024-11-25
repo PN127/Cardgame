@@ -11,7 +11,7 @@ namespace Cards
 
         public void CreaterCard(Transform spawnTransform, CardPropertiesData data, out Card card)
         {
-            card = Instantiate(_cardPrefab, spawnTransform.position, spawnTransform.rotation * new Quaternion(0,0,180,0));             
+            card = Instantiate(_cardPrefab, spawnTransform.position, spawnTransform.rotation * new Quaternion(0,0,180,0), spawnTransform);             
             CardFilling(card, data);
             card.SetProperties();
             card.gameObject.SetActive(false);

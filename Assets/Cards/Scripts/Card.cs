@@ -17,7 +17,8 @@ namespace Cards
         public CardPosition GetCurrentPosition => _currentPosition;
         [NonSerialized]
         public CardPropertiesData propertiesData;
-        
+        private Player _player;
+
 
         [SerializeField]
         private GameObject materialImage;
@@ -36,10 +37,11 @@ namespace Cards
 
         private StartingHand _startingHand;
         private Collider _collider;
-        private Mana _mana;
-        [SerializeField]
-        private Vector3 _firstPosition;
-        private StorageType _firstStorageType;
+
+       
+        private Vector3 _primaryPosition;
+        private StorageType _primaryStorageType;
+        private Transform _primaryParent;
 
         private void Awake()
         {           
@@ -49,7 +51,6 @@ namespace Cards
 
         private void Start()
         {
-            _mana = new Mana();
         }
 
         public void SetPosition(CardPosition position)
@@ -69,8 +70,7 @@ namespace Cards
 
         public void OnMouseEnter()
         {
-            if (_firstPosition == Vector3.zero) _firstPosition = transform.position;
-            _firstStorageType = _currentPosition.StorageType;
+            if (_primaryPosition == Vector3.zero) _primaryPosition = transform.position;
             transform.position += new Vector3(0, 0, 3);
             transform.localScale += transform.localScale;
         }
@@ -78,18 +78,16 @@ namespace Cards
         {
             transform.position -= new Vector3(0, 0, 3);
             transform.localScale -= transform.localScale / 2;
-            if (_firstPosition != null)
+            if (_primaryPosition != null)
             {
-                transform.position = _firstPosition;
-                _firstPosition = Vector3.zero;
+                transform.position = _primaryPosition;
+                _primaryPosition = Vector3.zero;
             }
         }
         public void OnBeginDrag(PointerEventData eventData)
         {
-            //if (CurrentPosition.StorageType != StorageType.Hand)
-            //    return;
-
-            _currentPosition.Clear();
+            _primaryParent = transform.parent;
+            transform.parent = null;
             _draggingObj = gameObject;
 
             _draggingObj.transform.position += new Vector3(0, 3, 0);
@@ -112,16 +110,19 @@ namespace Cards
                 CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
                 if (cardPosition.CardInPosition == null)
                 {
-                    cardPosition.SetCard(this);
-                    _currentPosition = cardPosition;
-                    _firstPosition = cardPosition.transform.position + new Vector3(0, 0.2f, 0);
-                    if (_firstStorageType == StorageType.Hand && _currentPosition.StorageType == StorageType.Table) ; //добавить метод в Player с передачей карты, чтобы из Player вызывался метод Mana.MinusMana
-                }
-                else
-                {
-                    _currentPosition.SetCard(this);
+                    if (_currentPosition.StorageType == StorageType.Hand && cardPosition.StorageType == StorageType.Table && _player.UsingCard(this))
+                    {
+                        _currentPosition.Clear();
+                        _currentPosition = cardPosition;
+                        _currentPosition.SetCard(this);
+                        _primaryParent = cardPosition.transform;
+                        _primaryPosition = cardPosition.transform.position + new Vector3(0, 0.2f, 0);
+
+                    }
+
                 }
 
+                transform.parent = _primaryParent;
                 _draggingObj = null;
                 return;
             }
@@ -160,6 +161,11 @@ namespace Cards
                 case (StorageType.Table):
                     break;
             }
+        }
+
+        public void SetPlayer(Player parent)
+        {
+            _player = parent;
         }
 
         public void Twist_method()

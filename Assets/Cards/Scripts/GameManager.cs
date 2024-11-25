@@ -12,7 +12,6 @@ namespace Cards
         private static Player _walker;
         public static Player GetWalker => _walker;
 
-        public Player Wlaker;
 
         [SerializeField]
         private int _round;
@@ -32,8 +31,6 @@ namespace Cards
             _startingHand = FindObjectOfType<StartingHand>();
             _walker = _players[0];
             _walker.AddManaScore();
-            Wlaker = _walker;
-
         }
 
         public void TransferTurn()
@@ -42,7 +39,6 @@ namespace Cards
             ChangeWalker();
             WaitFlipCardsAsync();
             Debug.Log("Смена хода завершена");
-            Wlaker = _walker;
         }
 
         private void ChangeWalker()

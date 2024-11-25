@@ -38,6 +38,11 @@ namespace Cards
             
         }
 
+        private void FixedUpdate()
+        {
+            _manaSoreText.text = _manascore.ToString();
+        }
+
         public void FlipCards()
         {
             foreach (CardPosition position in _hand.CardPositions)
@@ -54,7 +59,13 @@ namespace Cards
             _step++;
             _manaSoreText.gameObject.SetActive(true);
             _manascore += _mana.Scoring(this);
-            _manaSoreText.text = _manascore.ToString();
+            
+        }
+
+        public bool UsingCard(Card card)
+        {
+            _manascore = _mana.UsingMana(card, _manascore, out bool done);
+            return done;
         }
                 
 

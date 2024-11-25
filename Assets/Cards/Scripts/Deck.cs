@@ -187,6 +187,8 @@ namespace Cards
         private IEnumerator MoveCardTo(Card card, CardPosition cardPosition, float waitTime)
         {
             card.ColliderSwitch(false);
+            card.transform.parent = null;
+
 
             while (waitTime > 0)
             {
@@ -203,6 +205,8 @@ namespace Cards
                 time += Time.deltaTime;
                 yield return null;
             }
+            card.transform.parent = cardPosition.transform;
+            card.SetPlayer(_owner);
             cardPosition.SetCard(card);
             card.ColliderSwitch(true);
             if (cardPosition.StorageType == StorageType.Starting)

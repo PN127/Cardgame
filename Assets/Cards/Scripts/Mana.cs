@@ -16,10 +16,20 @@ namespace Cards
             return score;
         }
 
-        public int MinusMana(Card card)
+        public int UsingMana(Card card, int _manascore, out bool done)
         {
-            int score = 0;
-            return score;
+            ushort cost = card.propertiesData.Cost;
+            if (_manascore < cost)
+            {
+                Debug.Log($"Вам не хватает {_manascore - cost} маны для разыгровки этой карты");
+                done = false;
+                return _manascore;
+                
+            }
+
+            _manascore = _manascore - cost;
+            done = true;
+            return _manascore;
         }
 
     }
