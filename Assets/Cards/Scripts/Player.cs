@@ -12,8 +12,16 @@ namespace Cards
         private Deck _deck;
         public Deck GetDeck => _deck;
         [SerializeField]
-        private PlayerHand _hand;
-        public PlayerHand GetPlayerHand => _hand;
+        private Hand _hand;
+        public Hand GetPlayerHand => _hand;
+        [SerializeField]
+        private Table _table;
+        public Table GetTable => _table;
+        [SerializeField]
+        private Transform _fold;
+        public Transform GetFold => _fold;
+
+        [Space]
         [SerializeField]
         private int _manascore;
         public int GetManaScoe => _manascore;
@@ -29,13 +37,14 @@ namespace Cards
         private void Awake()
         {
             _deck = GetComponentInChildren<Deck>();
-            _hand = GetComponentInChildren<PlayerHand>();
+            _hand = GetComponentInChildren<Hand>();
+            _table = GetComponentInChildren<Table>();
             _mana = new Mana();
         }
 
         private void Start()
         {
-            
+
         }
 
         private void FixedUpdate()
@@ -53,6 +62,17 @@ namespace Cards
                 card.Twist_method();
             }
         }
+
+        public void PossibilityCardAttack()
+        {
+            foreach (CardPosition position in _table.CardPositions)
+            {
+                Card card = position.GetCard();
+                if (card == null)
+                    return;
+                card._canAttack = true;
+            }
+        } 
 
         public void AddManaScore()
         {
@@ -74,7 +94,6 @@ namespace Cards
             _deck.EndOfTurn();
             _manaSoreText.gameObject.SetActive(false);
             
-        }
-        
+        }       
     }
 }

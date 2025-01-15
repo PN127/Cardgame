@@ -23,7 +23,7 @@ namespace Cards
         [SerializeField]
         private GameObject materialImage;
         [SerializeField]
-        private TMPro.TextMeshPro DisplayCost;        
+        private TMPro.TextMeshPro DisplayCost;
         [SerializeField]
         private TMPro.TextMeshPro DisplayName;
         [SerializeField]
@@ -35,22 +35,29 @@ namespace Cards
         [SerializeField]
         private TMPro.TextMeshPro DisplayHealth;
 
+        private int health;
+        private int attack;
+
         private StartingHand _startingHand;
         private Collider _collider;
+        public bool _canAttack;
 
-       
+
         private Vector3 _primaryPosition;
         private StorageType _primaryStorageType;
         private Transform _primaryParent;
 
         private void Awake()
-        {           
+        {
             _startingHand = FindObjectOfType<StartingHand>();
             _collider = GetComponent<Collider>();
         }
 
         private void Start()
         {
+            _canAttack = false;
+            health = propertiesData.Health;
+            attack = propertiesData.Attack;
         }
 
         public void SetPosition(CardPosition position)
@@ -86,6 +93,9 @@ namespace Cards
         }
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (!_canAttack && _currentPosition.StorageType == StorageType.Table)
+                return;
+
             _primaryParent = transform.parent;
             transform.parent = null;
             _draggingObj = gameObject;
@@ -107,19 +117,32 @@ namespace Cards
         {
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 100f, 1 << 8))
             {
-                CardPosition cardPosition = hitInfo.transform.GetComponent<CardPosition>();
-                if (cardPosition.CardInPosition == null)
+                Transform targetPosition = hitInfo.transform;
+
+                if (targetPosition.GetComponent<CardPosition>())
                 {
-                    if (_currentPosition.StorageType == StorageType.Hand && cardPosition.StorageType == StorageType.Table && _player.UsingCard(this))
+                    CardPosition cardPosition = targetPosition.GetComponent<CardPosition>();
+
+                    if (cardPosition.CardInPosition == null)
                     {
-                        _currentPosition.Clear();
-                        _currentPosition = cardPosition;
-                        _currentPosition.SetCard(this);
-                        _primaryParent = cardPosition.transform;
-                        _primaryPosition = cardPosition.transform.position + new Vector3(0, 0.2f, 0);
-
+                        if (_currentPosition.StorageType == StorageType.Hand && cardPosition.StorageType == StorageType.Table && _player.UsingCard(this))
+                        {
+                            MoveToTable(cardPosition);
+                        }
                     }
+                }
 
+                else
+                {
+                    if (!targetPosition.GetComponent<Card>())
+                        return;
+                    if (_currentPosition.StorageType == StorageType.Table &&
+                        targetPosition.GetComponent<Player>() != _player &&
+                        targetPosition.GetComponent<Card>().GetCurrentPosition.StorageType == StorageType.Table)
+                    {
+                        Card targetCard = targetPosition.GetComponent<Card>();
+                        MoveToAtack(targetCard);
+                    }
                 }
 
                 transform.parent = _primaryParent;
@@ -129,17 +152,6 @@ namespace Cards
 
             _currentPosition.SetCard(this);
             _draggingObj = null;
-        }
-
-        public void SetProperties()
-        {
-            materialImage.GetComponent<Renderer>().material.mainTexture = propertiesData.Texture;
-            DisplayCost.text = propertiesData.Cost.ToString();
-            DisplayName.text = propertiesData.Name;
-            DisplayDescription.text = CardUtility.GetDescriptionById(propertiesData.Id);
-            DisplayType.text = propertiesData.Type.ToString();
-            DisplayAttack.text = propertiesData.Attack.ToString();
-            DisplayHealth.text = propertiesData.Health.ToString();
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -163,14 +175,56 @@ namespace Cards
             }
         }
 
-        public void SetPlayer(Player parent)
+        private void MoveToTable(CardPosition cardPosition)
         {
-            _player = parent;
+            _currentPosition.Clear();
+            _currentPosition = cardPosition;
+            _currentPosition.SetCard(this);
+            _primaryParent = cardPosition.transform;
+            _primaryPosition = cardPosition.transform.position + new Vector3(0, 0.2f, 0);
+
+        }
+
+        private void MoveToAtack(Card targetCard)
+        {
+            targetCard.TakeDamage(propertiesData.Attack, out int counterattack);
+            if (counterattack > 0)
+                TakeDamage(counterattack, out int v);
+        }
+
+        public int TakeDamage(int damadge, out int counterattack)
+        {
+            health = (int)health - damadge;
+            refreshProp();
+            counterattack = propertiesData.Attack;
+            if (health <= 0)
+            {
+                Death();
+                
+            }
+            return counterattack;            
+        }  
+
+        private void Death() //логика смерти
+        {
+            Debug.LogError($"здоровья нет = {health}. Я помер Х/ {gameObject.name}");
+            _currentPosition.Clear();
+            _currentPosition = null;
+            Twist_method(); //карты не переворачиваются to do
+
+            Fold.FoldStatic.CardsDie(gameObject.transform); //перемещение карт в битое
+        }
+
+
+
+        public void SetPlayer(Player player)
+        {
+            _player = player;
         }
 
         public void Twist_method()
         {
-            
+
             StartCoroutine(Twist());
         }
 
@@ -189,7 +243,7 @@ namespace Cards
             while (t < 1)
             {
                 transform.rotation *= Quaternion.Euler(new Vector3(0, 0, 180) * 1f * Time.deltaTime);
-                t += Time.deltaTime;     
+                t += Time.deltaTime;
                 yield return null;
             }
             if (transform.rotation.z > 0.5)
@@ -205,6 +259,23 @@ namespace Cards
             pos = transform.position;
             pos.y = 0.3f;
             transform.position = pos;
+        }
+
+        public void SetProperties()
+        {
+            Start();
+            materialImage.GetComponent<Renderer>().material.mainTexture = propertiesData.Texture;
+            DisplayCost.text = propertiesData.Cost.ToString();
+            DisplayName.text = propertiesData.Name;
+            DisplayDescription.text = CardUtility.GetDescriptionById(propertiesData.Id);
+            DisplayType.text = propertiesData.Type.ToString();
+            DisplayAttack.text = attack.ToString();
+            DisplayHealth.text = health.ToString();
+        }
+
+        private void refreshProp()
+        {
+            DisplayHealth.text = health.ToString();
         }
     }
 }

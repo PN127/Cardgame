@@ -44,7 +44,7 @@ namespace Cards
         private void ChangeWalker()
         {
             Vector3 rotation;
-            _walker.EndOfTurn();
+            _walker.EndOfTurn();           
 
             if (_walker == _players[0])
             {
@@ -58,6 +58,7 @@ namespace Cards
             }
 
             _walker.AddManaScore();
+            _walker.PossibilityCardAttack();
 
             if (camera.transform.rotation != Quaternion.Euler(rotation))
                 StartCoroutine(CameraRotation(rotation));

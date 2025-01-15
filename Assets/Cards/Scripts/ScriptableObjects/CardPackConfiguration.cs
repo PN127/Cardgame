@@ -20,8 +20,12 @@ namespace Cards
 		[SerializeField, OneLine(Header = LineHeader.Short)]
 		private CardPropertiesData[] _cards;                     //notes1 - CardPropertiesData это структура из Structs
 
+		
+
 		public IEnumerable<CardPropertiesData> UnionProperties(IEnumerable<CardPropertiesData> array)
 		{
+			_isConstruct = false;
+
 			TryToContruct();
 
 			return array = _cards; //return array.Union(_cards);

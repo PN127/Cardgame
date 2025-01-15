@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Cards
 {
-    public class PlayerHand : MonoBehaviour
+    public class Hand : MonoBehaviour
     {
         private List<CardPosition> _cardPositions;
 

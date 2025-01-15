@@ -16,7 +16,7 @@ namespace Cards
         private Player _owner;
 
         private CardCreator _cardCreator;
-        private PlayerHand _playerHand;
+        private Hand _playerHand;
         private StartingHand _startingHand;
         private bool _startHandSelection;
         private bool _cardIssue;
