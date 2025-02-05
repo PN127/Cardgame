@@ -25,7 +25,9 @@ namespace Cards
 		Starting,
 		Table,
 		Hand,
-		Deck
+		Deck,
+		Hero,
+		Null
     }
 
 	public enum Players

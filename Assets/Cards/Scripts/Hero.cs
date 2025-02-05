@@ -2,21 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+namespace Cards
 {
-    [SerializeField, Min (1)]
-    private int _health;
-
-    public void ChangeHealth(int value)
+    public class Hero : Entity
     {
-        _health += value;
-    
-        if (_health < 0)
+        private void Start()
         {
-            UnityEditor.EditorApplication.isPaused = true;
+            _player = GetComponentInParent<Player>();
         }
+
+        public override int TakeDamage(int damadge, out int counterattack)
+        {
+            health -= damadge;
+            counterattack = attack;
+            if (health < 0)
+            {
+                Debug.LogWarning($"Игрок {_player.name} проиграл");
+                UnityEditor.EditorApplication.isPaused = true;
+            }
+            return counterattack;
+        }
+
+        public override StorageType GetStorageType()
+        {
+            StorageType type = StorageType.Hero;
+            return type;
+        }
+
+
+
+
+
     }
-
-    
-
 }

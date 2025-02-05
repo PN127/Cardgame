@@ -7,8 +7,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Cards
-{
-    public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+{   
+
+    public class Card : Entity, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler 
     {
         private static GameObject _draggingObj;
 
@@ -16,9 +17,7 @@ namespace Cards
         private CardPosition _currentPosition;
         public CardPosition GetCurrentPosition => _currentPosition;
         [NonSerialized]
-        public CardPropertiesData propertiesData;
-        private Player _player;
-
+        public CardPropertiesData propertiesData;      
 
         [SerializeField]
         private GameObject materialImage;
@@ -34,9 +33,6 @@ namespace Cards
         private TMPro.TextMeshPro DisplayAttack;
         [SerializeField]
         private TMPro.TextMeshPro DisplayHealth;
-
-        private int health;
-        private int attack;
 
         private StartingHand _startingHand;
         private Collider _collider;
@@ -119,7 +115,7 @@ namespace Cards
             {
                 Transform targetPosition = hitInfo.transform;
 
-                if (targetPosition.GetComponent<CardPosition>())
+                if (targetPosition.GetComponent<CardPosition>())  
                 {
                     CardPosition cardPosition = targetPosition.GetComponent<CardPosition>();
 
@@ -134,14 +130,18 @@ namespace Cards
 
                 else
                 {
-                    if (!targetPosition.GetComponent<Card>())
+                    Entity entity = targetPosition.GetComponent<Entity>();
+                    Player player = entity.GetPlayer;
+                    StorageType storageType = entity.GetStorageType();
+                    
+                    if (entity == null)
                         return;
+                    
                     if (_currentPosition.StorageType == StorageType.Table &&
-                        targetPosition.GetComponent<Player>() != _player &&
-                        targetPosition.GetComponent<Card>().GetCurrentPosition.StorageType == StorageType.Table)
+                        player != _player &&
+                        (storageType == StorageType.Table || storageType == StorageType.Hero))
                     {
-                        Card targetCard = targetPosition.GetComponent<Card>();
-                        MoveToAtack(targetCard);
+                        MoveToAtack(entity);
                     }
                 }
 
@@ -185,22 +185,21 @@ namespace Cards
 
         }
 
-        private void MoveToAtack(Card targetCard)
+        private void MoveToAtack(Entity targetEntity)
         {
-            targetCard.TakeDamage(propertiesData.Attack, out int counterattack);
+            targetEntity.TakeDamage(attack, out int counterattack);
             if (counterattack > 0)
                 TakeDamage(counterattack, out int v);
         }
 
-        public int TakeDamage(int damadge, out int counterattack)
+        public override int TakeDamage(int damadge, out int counterattack)
         {
-            health = (int)health - damadge;
+            health -= damadge;
             refreshProp();
-            counterattack = propertiesData.Attack;
+            counterattack = attack;
             if (health <= 0)
             {
                 Death();
-                
             }
             return counterattack;            
         }  
@@ -215,17 +214,16 @@ namespace Cards
             Fold.FoldStatic.CardsDie(gameObject.transform); //перемещение карт в битое
         }
 
-
-
-        public void SetPlayer(Player player)
-        {
-            _player = player;
-        }
-
         public void Twist_method()
         {
 
             StartCoroutine(Twist());
+        }
+
+        public override StorageType GetStorageType()
+        {
+            StorageType type = _currentPosition.StorageType;
+            return type;
         }
 
         private IEnumerator Twist()

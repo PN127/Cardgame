@@ -96,4 +96,32 @@ namespace Cards
             Debug.Log("Карты перевенуты");
         }
     }
+
+    public class Entity : MonoBehaviour
+    {
+        [SerializeField, Min(1)]
+        protected int health;
+        [SerializeField, Min(0)]
+        protected int attack;
+        protected Player _player;
+        public Player GetPlayer => _player;
+
+        public void SetPlayer(Player player)
+        {
+            _player = player;
+        }
+
+        public virtual int TakeDamage(int damadge, out int counterattack)
+        {
+            health -= damadge;
+            counterattack = attack;
+            return counterattack;
+        }
+        public virtual StorageType GetStorageType()
+        {
+            StorageType type = StorageType.Null;
+            return type;
+        }
+
+    }
 }

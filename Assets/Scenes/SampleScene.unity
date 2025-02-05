@@ -3601,7 +3601,7 @@ GameObject:
   - component: {fileID: 1368890315}
   - component: {fileID: 1368890314}
   - component: {fileID: 1368890313}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeroPortrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5108,7 +5108,7 @@ GameObject:
   - component: {fileID: 1917785284}
   - component: {fileID: 1917785283}
   - component: {fileID: 1917785286}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeroPortrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5201,7 +5201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb00b46e992e7f84eb7f4e9654180e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1
+  health: 1
+  attack: 0
 --- !u!1 &1968264874
 GameObject:
   m_ObjectHideFlags: 0

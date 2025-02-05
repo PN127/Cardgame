@@ -69,7 +69,7 @@ namespace Cards
             {
                 Card card = position.GetCard();
                 if (card == null)
-                    return;
+                    continue;
                 card._canAttack = true;
             }
         } 
