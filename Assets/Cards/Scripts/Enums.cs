@@ -22,12 +22,12 @@ namespace Cards
 
 	public enum StorageType
     {
+		None,
 		Starting,
 		Table,
 		Hand,
 		Deck,
-		Hero,
-		Null
+		Hero
     }
 
 	public enum Players
@@ -35,6 +35,15 @@ namespace Cards
 		None,
 		Player1,
 		Player2,
-		Both
+        Both
     }
+
+    public enum MinionEffects
+    {
+		None,
+		Charge,
+		Taunt,
+		Battlecry
+	}
+
 }

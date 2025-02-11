@@ -119,7 +119,7 @@ namespace Cards
         }
         public virtual StorageType GetStorageType()
         {
-            StorageType type = StorageType.Null;
+            StorageType type = StorageType.None;
             return type;
         }
 

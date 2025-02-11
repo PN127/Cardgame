@@ -30,7 +30,6 @@ namespace Cards
 	{
 		[Width(30)]
 		public uint Id;
-        [NonSerialized]
         public ushort Cost;
 		public string Name;
 		[Width(50)]
@@ -43,11 +42,12 @@ namespace Cards
 		public CardUnitType Type;
 		[Width(50)]
 		public Players InDeck;
+		public MinionEffects Effect;
 
-		public CardParamsData GetParams()
-		{
-			return new CardParamsData(Cost, Attack, Health);
-		}
+		//public CardParamsData GetParams()
+		//{
+		//	return new CardParamsData(Cost, Attack, Health);
+		//}
 	}
 
 	[Serializable]
@@ -68,10 +68,10 @@ namespace Cards
         [Width(50)]
 		public bool InDeck;
 
-		public CardParamsData GetParams()
-		{
-			return new CardParamsData(Cost, Attack, Health);
-		}
+		//public CardParamsData GetParams()
+		//{
+		//	return new CardParamsData(Cost, Attack, Health);
+		//}
 	}
 
 	public struct CardParamsData
@@ -80,9 +80,9 @@ namespace Cards
 		public ushort Attack;
 		public ushort Health;
 
-		public CardParamsData(ushort cost, ushort attack, ushort health)
-		{
-			Cost = cost; Attack = attack; Health = health;
-		}
+		//public CardParamsData(ushort cost, ushort attack, ushort health, MinionEffects effect = MinionEffects.None)
+		//{
+		//	Cost = cost; Attack = attack; Health = health;
+		//}
 	}
 }

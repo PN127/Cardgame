@@ -16,7 +16,7 @@ namespace Cards
         [SerializeField]
         private CardPosition _currentPosition;
         public CardPosition GetCurrentPosition => _currentPosition;
-        [NonSerialized]
+        //[NonSerialized]
         public CardPropertiesData propertiesData;      
 
         [SerializeField]
@@ -265,10 +265,10 @@ namespace Cards
             materialImage.GetComponent<Renderer>().material.mainTexture = propertiesData.Texture;
             DisplayCost.text = propertiesData.Cost.ToString();
             DisplayName.text = propertiesData.Name;
-            DisplayDescription.text = CardUtility.GetDescriptionById(propertiesData.Id);
             DisplayType.text = propertiesData.Type.ToString();
             DisplayAttack.text = attack.ToString();
             DisplayHealth.text = health.ToString();
+            DisplayDescription.text = CardUtility.GetDescriptionById(propertiesData.Id);
         }
 
         private void refreshProp()

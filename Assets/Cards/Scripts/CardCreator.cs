@@ -26,6 +26,21 @@ namespace Cards
             card.propertiesData.Attack = data.Attack;
             card.propertiesData.Health = data.Health;
             card.propertiesData.Type = data.Type;
+
+            var description = CardUtility.GetDescriptionById(data.Id);
+            switch (description)
+            {
+                case string a when a.Contains("Charge"):
+                    card.propertiesData.Effect = MinionEffects.Charge;
+                    break;
+                case string b when b.Contains("Taunt"):
+                    card.propertiesData.Effect = MinionEffects.Taunt;
+                    break;
+                case string c when c.Contains("Battlecry"):
+                    card.propertiesData.Effect = MinionEffects.Battlecry;
+                    break;
+
+            }
         }
     }
 }
