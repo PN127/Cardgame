@@ -51,9 +51,14 @@ namespace Cards
 
         private void Start()
         {
-            _canAttack = false;
+            
             health = propertiesData.Health;
             attack = propertiesData.Attack;
+
+            if (propertiesData.Effect == MinionEffects.Charge)
+                _canAttack = true;
+            else
+                _canAttack = false;
         }
 
         public void SetPosition(CardPosition position)
