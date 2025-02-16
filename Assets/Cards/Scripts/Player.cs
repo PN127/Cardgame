@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +31,9 @@ namespace Cards
         private Text _manaSoreText;
 
         private Mana _mana;
+
+        public GameObject Shield;
+        public bool TauntOnTable;
 
         private void Awake()
         {
@@ -70,9 +71,51 @@ namespace Cards
                 Card card = position.GetCard();
                 if (card == null)
                     continue;
-                card._canAttack = true;
+                card.SwitchCanAttack(true);
             }
-        } 
+        }
+
+        public void TauntPutOnTable(Card cardTaunt, bool alive)
+        {
+            TauntOnTable = alive;
+            if (alive)
+            {
+                foreach (CardPosition position in _table.CardPositions)
+                {
+                    Card card = position.GetCard();
+                    if (card == null)
+                        continue;
+                    if (card == cardTaunt |
+                        card.propertiesData.Effect == MinionEffects.Taunt)
+                        continue;
+
+                    card.SwitchCanAttacked(false);
+                }
+            }
+            else
+            {
+                List<Card> anotherCard = new List<Card>();
+                foreach (CardPosition position in _table.CardPositions)
+                {
+                    Card card = position.GetCard();                    
+                    if (card == null ||
+                        card == cardTaunt)
+                        continue;
+                    if (card.propertiesData.Effect == MinionEffects.Taunt)
+                    {
+                        TauntOnTable = true;
+                        return;
+                    }
+                    anotherCard.Add(card);                    
+                }
+                
+                foreach (Card card in anotherCard)
+                {
+                    card.SwitchCanAttacked(true);
+                }
+            }
+        }
+
 
         public void AddManaScore()
         {
