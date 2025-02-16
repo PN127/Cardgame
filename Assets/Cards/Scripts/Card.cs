@@ -36,7 +36,8 @@ namespace Cards
 
         private StartingHand _startingHand;
         private Collider _collider;
-        public bool _canAttack;
+        private GameObject Shield;
+        
 
 
         private Vector3 _primaryPosition;
@@ -51,7 +52,7 @@ namespace Cards
 
         private void Start()
         {
-            
+            _canAttacked = true;
             health = propertiesData.Health;
             attack = propertiesData.Attack;
 
@@ -129,24 +130,26 @@ namespace Cards
                         if (_currentPosition.StorageType == StorageType.Hand && cardPosition.StorageType == StorageType.Table && _player.UsingCard(this))
                         {
                             MoveToTable(cardPosition);
+                            ApplyingEffects();
                         }
                     }
                 }
 
                 else
                 {
-                    Entity entity = targetPosition.GetComponent<Entity>();
-                    Player player = entity.GetPlayer;
-                    StorageType storageType = entity.GetStorageType();
+                    Entity targetEntity = targetPosition.GetComponent<Entity>();
+                    Player targetPlayer = targetEntity.GetPlayer;
+                    StorageType storageType = targetEntity.GetStorageType();
                     
-                    if (entity == null)
+                    if (targetEntity == null)
                         return;
                     
                     if (_currentPosition.StorageType == StorageType.Table &&
-                        player != _player &&
-                        (storageType == StorageType.Table || storageType == StorageType.Hero))
+                        targetPlayer != _player &&
+                        (storageType == StorageType.Table || storageType == StorageType.Hero) &&
+                        targetEntity._canAttacked)
                     {
-                        MoveToAtack(entity);
+                        MoveToAtack(targetEntity);
                     }
                 }
 
@@ -158,6 +161,8 @@ namespace Cards
             _currentPosition.SetCard(this);
             _draggingObj = null;
         }
+
+        
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -187,6 +192,9 @@ namespace Cards
             _currentPosition.SetCard(this);
             _primaryParent = cardPosition.transform;
             _primaryPosition = cardPosition.transform.position + new Vector3(0, 0.2f, 0);
+            if (_player.TauntOnTable &&
+                propertiesData.Effect != MinionEffects.Taunt)
+                _canAttacked = false;
 
         }
 
@@ -215,15 +223,35 @@ namespace Cards
             _currentPosition.Clear();
             _currentPosition = null;
             Twist_method(); //карты не переворачиваются to do
+            ApplyingEffects(false);
 
             Fold.FoldStatic.CardsDie(gameObject.transform); //перемещение карт в битое
         }
 
         public void Twist_method()
         {
-
             StartCoroutine(Twist());
         }
+        public void SwitchCanAttack(bool b)
+        {
+            _canAttack = b;
+        }
+        public void SwitchCanAttacked(bool b)
+        {
+            _canAttacked = b;
+        }
+
+        private void ApplyingEffects(bool alive = true)
+        {
+            switch (propertiesData.Effect)
+            {
+                case MinionEffects.Taunt:
+                    Shield = Instantiate(_player.Shield, this.transform);
+                    _player.TauntPutOnTable(this, alive);
+                    break;
+            }
+        }
+        
 
         public override StorageType GetStorageType()
         {

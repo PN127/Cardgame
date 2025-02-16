@@ -106,6 +106,9 @@ namespace Cards
         protected Player _player;
         public Player GetPlayer => _player;
 
+        public bool _canAttack { get; protected set; }
+        public bool _canAttacked { get; protected set; }
+
         public void SetPlayer(Player player)
         {
             _player = player;

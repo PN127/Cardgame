@@ -106,7 +106,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a54108d3fb94c7a48b55ff3c7f381ce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentPosition: {fileID: 0}
+  health: 0
+  attack: 0
+  _currentPosition: {fileID: 0}
+  propertiesData:
+    Id: 0
+    Cost: 0
+    Name: 
+    Texture: {fileID: 0}
+    Attack: 0
+    Health: 0
+    Type: 0
+    InDeck: 0
+    Effect: 0
   materialImage: {fileID: 0}
   DisplayCost: {fileID: 0}
   DisplayName: {fileID: 0}

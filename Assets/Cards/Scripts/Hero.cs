@@ -11,6 +11,14 @@ namespace Cards
             _player = GetComponentInParent<Player>();
         }
 
+        private void FixedUpdate()
+        {
+            if (_player.TauntOnTable)
+                _canAttacked = false;
+            else
+                _canAttacked = true;
+        }
+
         public override int TakeDamage(int damadge, out int counterattack)
         {
             health -= damadge;

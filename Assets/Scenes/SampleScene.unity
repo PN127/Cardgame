@@ -1228,7 +1228,7 @@ MonoBehaviour:
     Type: 0
     InDeck: 0
     Effect: 0
-  _idCardsForDeck: 68000000680000006700000067000000680000006700000068000000680000006600000066000000
+  _idCardsForDeck: 68000000cc000000c9000000
 --- !u!114 &406663323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,7 +1850,7 @@ MonoBehaviour:
     Type: 0
     InDeck: 0
     Effect: 0
-  _idCardsForDeck: 000000006800000068000000000000006800000067000000cb00000068000000000000006700000067000000000000006700000000000000cb00000000000000cb00000000000000650000000000000067000000cb0000000000000000000000000000000000000000000000000000000000000000000000
+  _idCardsForDeck: 6500000067000000c9000000
 --- !u!114 &502338963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3506,6 +3506,8 @@ MonoBehaviour:
   _manascore: 0
   _step: 0
   _manaSoreText: {fileID: 712286873}
+  Shield: {fileID: 6569766771124158564, guid: fb13012efdd4a5c4996554a55eb60734, type: 3}
+  TauntOnTable: 0
 --- !u!1 &1364249602
 GameObject:
   m_ObjectHideFlags: 0
@@ -5119,6 +5121,8 @@ MonoBehaviour:
   _manascore: 0
   _step: 0
   _manaSoreText: {fileID: 426098625}
+  Shield: {fileID: 6569766771124158564, guid: fb13012efdd4a5c4996554a55eb60734, type: 3}
+  TauntOnTable: 0
 --- !u!1 &1917785281
 GameObject:
   m_ObjectHideFlags: 0
