@@ -120,6 +120,11 @@ namespace Cards
             counterattack = attack;
             return counterattack;
         }
+        public virtual void RestoreHealth(int health_count)
+        {
+            health += health_count;            
+        }
+
         public virtual StorageType GetStorageType()
         {
             StorageType type = StorageType.None;

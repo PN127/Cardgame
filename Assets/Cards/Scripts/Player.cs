@@ -18,6 +18,10 @@ namespace Cards
         [SerializeField]
         private Transform _fold;
         public Transform GetFold => _fold;
+        [SerializeField]
+        private Hero _hero;
+        public Hero GetHero => _hero;
+
 
         [Space]
         [SerializeField]
@@ -40,6 +44,7 @@ namespace Cards
             _deck = GetComponentInChildren<Deck>();
             _hand = GetComponentInChildren<Hand>();
             _table = GetComponentInChildren<Table>();
+            _hero = GetComponentInChildren<Hero>();
             _mana = new Mana();
         }
 
@@ -115,7 +120,11 @@ namespace Cards
                 }
             }
         }
-
+        public void RestoreHealth_Hero(int health_count)
+        {
+            _hero.RestoreHealth(health_count);
+            Debug.Log($"Герою было востановлено {health_count} очков здоровья");
+        }
 
         public void AddManaScore()
         {

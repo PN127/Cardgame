@@ -223,7 +223,7 @@ namespace Cards
             _currentPosition.Clear();
             _currentPosition = null;
             Twist_method(); //карты не переворачиваются to do
-            ApplyingEffects(false);
+            RemovingEffect();
 
             Fold.FoldStatic.CardsDie(gameObject.transform); //перемещение карт в битое
         }
@@ -247,11 +247,26 @@ namespace Cards
             {
                 case MinionEffects.Taunt:
                     Shield = Instantiate(_player.Shield, this.transform);
-                    _player.TauntPutOnTable(this, alive);
+                    _player.TauntPutOnTable(this, true);
+                    break;
+                case MinionEffects.Battlecry:
+                    if (propertiesData.Name == "Voodoo Doctor")
+                        _player.RestoreHealth_Hero(2);
                     break;
             }
         }
-        
+        private void RemovingEffect()
+        {
+            switch (propertiesData.Effect)
+            {
+                case MinionEffects.Taunt:
+                    Shield = Instantiate(_player.Shield, this.transform);
+                    _player.TauntPutOnTable(this, false);
+                    break;
+            }
+        }
+
+
 
         public override StorageType GetStorageType()
         {
